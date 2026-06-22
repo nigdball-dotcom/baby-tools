@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema } from '@/lib/schema'
+import { articleSchema, faqSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
@@ -76,6 +76,7 @@ const FAQ_ITEMS: FAQItem[] = [
 ]
 
 export default function DiaperRashPreventionPage() {
+  const faq = faqSchema(FAQ_ITEMS)
   const schema = articleSchema({
     title: TITLE,
     description: DESCRIPTION,
@@ -103,7 +104,15 @@ export default function DiaperRashPreventionPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+      />
 
+      <div className="not-prose mb-6 rounded-xl border border-green-100 bg-green-50 p-4 text-sm text-green-800">
+        ข้อมูลในบทความนี้อ้างอิงจาก <strong>สมาคมกุมารแพทย์แห่งประเทศไทย</strong> และ{' '}
+        <strong>American Academy of Pediatrics</strong> — ควรปรึกษากุมารแพทย์หากผื่นรุนแรงหรือไม่ดีขึ้นใน 5–7 วัน
+      </div>
       <p>
         ผื่นผ้าอ้อมเป็นปัญหาที่พ่อแม่เกือบทุกคนต้องเจอ สถิติพบว่าเด็กทารกมากกว่า 35%
         เคยมีผื่นผ้าอ้อมในช่วง 1–2 ปีแรก แม้จะดูเหมือนปัญหาเล็กน้อย

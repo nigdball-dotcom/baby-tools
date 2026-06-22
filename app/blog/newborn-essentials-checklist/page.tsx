@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema } from '@/lib/schema'
+import { articleSchema, faqSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
@@ -92,6 +92,7 @@ function ChecklistItem({ items, essential = true }: { items: string[]; essential
 }
 
 export default function NewbornEssentialsChecklistPage() {
+  const faq = faqSchema(FAQ_ITEMS)
   const schema = articleSchema({
     title: TITLE,
     description: DESCRIPTION,
@@ -118,6 +119,10 @@ export default function NewbornEssentialsChecklistPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
       />
 
       <p>
@@ -163,6 +168,10 @@ export default function NewbornEssentialsChecklistPage() {
       ]} />
 
       <h2 id="diaper">ของใช้สำหรับเปลี่ยนผ้าอ้อม</h2>
+      <p>
+        เด็กแรกเกิดใช้ผ้าอ้อม 8–12 ชิ้นต่อวัน อ่านรายละเอียดที่{' '}
+        <Link href="/blog/newborn-diapers-per-day">เด็กแรกเกิดใช้ผ้าอ้อมกี่ชิ้นต่อวัน?</Link>
+      </p>
       <ChecklistItem items={[
         'ผ้าอ้อมไซส์ NB 1–2 แพ็ก (อย่าซื้อมากเกินไป)',
         'ผ้าอ้อมไซส์ S 2–3 แพ็ก (ใช้นานกว่า)',

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema } from '@/lib/schema'
+import { articleSchema, faqSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
@@ -81,6 +81,7 @@ const FAQ_ITEMS: FAQItem[] = [
 ]
 
 export default function HowToChangeDiaperPage() {
+  const faq = faqSchema(FAQ_ITEMS)
   const schema = articleSchema({
     title: TITLE,
     description: DESCRIPTION,
@@ -107,6 +108,10 @@ export default function HowToChangeDiaperPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
       />
 
       <p>
@@ -225,6 +230,10 @@ export default function HowToChangeDiaperPage() {
       <p>
         อ่านคู่มือการป้องกันและรักษาผื่นผ้าอ้อมแบบละเอียดได้ที่{' '}
         <Link href="/blog/diaper-rash-prevention">ผื่นผ้าอ้อม วิธีป้องกันและรักษา</Link>
+      </p>
+      <p>
+        ต้องการทราบว่าค่าผ้าอ้อมที่เปลี่ยนบ่อยขึ้นจะทำให้ค่าใช้จ่ายเพิ่มเท่าไร? คำนวณได้ที่{' '}
+        <Link href="/blog/monthly-diaper-cost">ค่าผ้าอ้อมต่อเดือน — ตารางเปรียบเทียบ</Link>
       </p>
 
       <div className="not-prose my-6 rounded-2xl bg-blue-600 p-6 text-center text-white">

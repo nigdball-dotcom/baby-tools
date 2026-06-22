@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema } from '@/lib/schema'
+import { articleSchema, faqSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
@@ -38,6 +38,7 @@ export const metadata: Metadata = {
 
 const TOC: TOCItem[] = [
   { id: 'by-age', label: 'เด็กแต่ละวัยนอนกี่ชั่วโมง?' },
+  { id: 'daily-schedule', label: 'ตัวอย่างตารางกิจวัตรประจำวัน' },
   { id: 'why', label: 'ทำไมทารกต้องนอนเยอะ?' },
   { id: 'signs', label: 'สัญญาณที่บอกว่าลูกง่วงนอน' },
   { id: 'routine', label: 'วิธีสร้างกิจวัตรนอนที่ดี' },
@@ -80,6 +81,7 @@ const FAQ_ITEMS: FAQItem[] = [
 ]
 
 export default function NewbornSleepHoursPage() {
+  const faq = faqSchema(FAQ_ITEMS)
   const schema = articleSchema({
     title: TITLE,
     description: DESCRIPTION,
@@ -107,7 +109,15 @@ export default function NewbornSleepHoursPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+      />
 
+      <div className="not-prose mb-6 rounded-xl border border-green-100 bg-green-50 p-4 text-sm text-green-800">
+        ข้อมูลในบทความนี้อ้างอิงจาก <strong>American Academy of Sleep Medicine</strong>,{' '}
+        <strong>American Academy of Pediatrics (AAP)</strong> และ <strong>องค์การอนามัยโลก (WHO)</strong>
+      </div>
       <p>
         สำหรับพ่อแม่มือใหม่ คำถามที่วนเวียนในหัวทุกคืนคือ "ลูกนอนพอไหม? ปกติไหม?"
         ความกังวลนี้เป็นเรื่องธรรมดา เพราะการนอนหลับส่งผลโดยตรงต่อการพัฒนาสมองและร่างกายของลูก
@@ -153,6 +163,42 @@ export default function NewbornSleepHoursPage() {
       <p>
         <strong>หมายเหตุ:</strong> ตัวเลขเหล่านี้เป็นค่าเฉลี่ย เด็กแต่ละคนแตกต่างกัน
         ตราบเท่าที่ลูกตื่นแล้วสดใส ดื่มนมดี และน้ำหนักขึ้นตามเกณฑ์ ก็ถือว่าปกติ
+      </p>
+
+      <h2 id="daily-schedule">ตัวอย่างตารางกิจวัตรประจำวัน</h2>
+      <p>ตัวอย่างตารางสำหรับทารกอายุ 3–4 เดือน (อ้างอิงจาก American Academy of Pediatrics):</p>
+      <div className="not-prose my-4 overflow-x-auto rounded-xl border border-gray-100">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="bg-blue-50">
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">เวลา</th>
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">กิจกรรม</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {[
+              ['07:00', 'ตื่นนอน — ให้นม เปลี่ยนผ้าอ้อม เล่นเบาๆ'],
+              ['08:30', 'งีบรอบที่ 1 (45–90 นาที)'],
+              ['10:00', 'ให้นม — เวลาเล่น ทำกิจกรรมกระตุ้นพัฒนาการ'],
+              ['11:30', 'งีบรอบที่ 2 (45–90 นาที)'],
+              ['13:00', 'ให้นม — เวลาเล่น อาบน้ำ (ถ้าอาบตอนบ่าย)'],
+              ['14:30', 'งีบรอบที่ 3 (30–60 นาที)'],
+              ['16:00', 'ให้นม — เวลาเล่นนอก ออกอากาศ'],
+              ['17:30', 'งีบสั้น "catnap" (30 นาที — ป้องกันง่วงเกินก่อนนอน)'],
+              ['19:00', 'เริ่มกิจวัตรก่อนนอน — อาบน้ำ นวด ให้นม'],
+              ['19:30', 'นอนกลางคืน'],
+              ['01:00–03:00', 'ตื่นมากินนมกลางคืน (1–2 ครั้ง)'],
+            ].map(([time, activity]) => (
+              <tr key={time} className="hover:bg-gray-50">
+                <td className="px-4 py-3 font-semibold text-blue-700 whitespace-nowrap">{time}</td>
+                <td className="px-4 py-3 text-gray-600">{activity}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-sm text-gray-500">
+        ตารางนี้เป็นแนวทาง ไม่ใช่กฎตายตัว ปรับตามพฤติกรรมของลูกแต่ละคน
       </p>
 
       <h2 id="why">ทำไมทารกต้องนอนเยอะมาก?</h2>

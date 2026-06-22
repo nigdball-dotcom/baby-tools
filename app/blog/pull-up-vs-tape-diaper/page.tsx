@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema } from '@/lib/schema'
+import { articleSchema, faqSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
@@ -42,7 +42,9 @@ const TOC: TOCItem[] = [
   { id: 'pullup', label: 'ผ้าอ้อมแบบใส่คืออะไร?' },
   { id: 'compare', label: 'เปรียบเทียบข้อดีข้อเสีย' },
   { id: 'age', label: 'เหมาะสำหรับช่วงอายุไหน?' },
+  { id: 'brands', label: 'ผ้าอ้อมแบบใส่แต่ละยี่ห้อ' },
   { id: 'price', label: 'ราคาต่างกันมากไหม?' },
+  { id: 'toilet-training', label: 'ผ้าอ้อมแบบใส่กับการฝึกเข้าห้องน้ำ' },
   { id: 'tips', label: 'เคล็ดลับการเลือกและใช้งาน' },
   { id: 'faq', label: 'คำถามที่พบบ่อย' },
 ]
@@ -81,6 +83,7 @@ const FAQ_ITEMS: FAQItem[] = [
 ]
 
 export default function PullUpVsTapeDiaperPage() {
+  const faq = faqSchema(FAQ_ITEMS)
   const schema = articleSchema({
     title: TITLE,
     description: DESCRIPTION,
@@ -107,6 +110,10 @@ export default function PullUpVsTapeDiaperPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
       />
 
       <p>
@@ -179,6 +186,36 @@ export default function PullUpVsTapeDiaperPage() {
         <strong>แบบใส่ตอนกลางวัน</strong> (เปลี่ยนสะดวกกว่า)
       </p>
 
+      <h2 id="brands">ผ้าอ้อมแบบใส่แต่ละยี่ห้อ — จุดเด่นและราคา</h2>
+      <div className="not-prose my-4 overflow-x-auto rounded-xl border border-gray-100">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="bg-blue-50">
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">ยี่ห้อ</th>
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">ไซส์ที่มี</th>
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">ราคา/ชิ้น</th>
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">จุดเด่น</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {[
+              ['MamyPoko Pants', 'M–XXXL', '3.50–5.50 ฿', 'ซับดี มีดีไซน์ลายน่ารัก'],
+              ['BabyLove Pants', 'M–XXL', '2.50–4.00 ฿', 'ราคาประหยัด คุ้มค่า'],
+              ['Merries Pants', 'M–XL', '5.00–7.50 ฿', 'ผิวนุ่ม เหมาะผิวบอบบาง'],
+              ['Huggies Pants', 'M–XXL', '3.50–5.50 ฿', 'ซับเยอะ เหมาะกลางคืน'],
+              ['Moony Pants', 'M–XL', '4.50–6.50 ฿', 'บางเบา ระบายอากาศดี'],
+            ].map(([brand, sizes, price, highlight]) => (
+              <tr key={brand} className="hover:bg-gray-50">
+                <td className="px-4 py-3 font-semibold text-gray-800">{brand}</td>
+                <td className="px-4 py-3 text-gray-600">{sizes}</td>
+                <td className="px-4 py-3 text-blue-700 font-medium">{price}</td>
+                <td className="px-4 py-3 text-gray-600">{highlight}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
       <h2 id="price">ราคาต่างกันมากไหม?</h2>
       <p>ตัวอย่างเปรียบเทียบราคา MamyPoko ขนาด L:</p>
       <ul>
@@ -193,6 +230,24 @@ export default function PullUpVsTapeDiaperPage() {
         ใช้{' '}
         <Link href="/tools/diaper-cost">เครื่องคำนวณค่าผ้าอ้อม</Link>{' '}
         เพื่อเปรียบเทียบต้นทุนรายเดือนและรายปีระหว่างทั้งสองแบบได้ทันที
+      </p>
+
+      <h2 id="toilet-training">ผ้าอ้อมแบบใส่กับการฝึกเข้าห้องน้ำ (Toilet Training)</h2>
+      <p>
+        ผ้าอ้อมแบบใส่มีบทบาทสำคัญในช่วงเริ่มฝึกเข้าห้องน้ำ ซึ่งโดยทั่วไปเริ่มได้เมื่อลูกอายุ 18–24 เดือน
+        โดยสัญญาณที่บอกว่าลูกพร้อมได้แก่:
+      </p>
+      <ul>
+        <li>ลูกบอกได้ว่าผ้าอ้อมเปียกหรือสกปรก</li>
+        <li>อยากใส่กางเกงชั้นในแบบผู้ใหญ่ ("กางเกงบิ๊ก")</li>
+        <li>ผ้าอ้อมแห้งอยู่ได้นานกว่า 2 ชั่วโมง</li>
+        <li>เริ่มเข้าใจและสื่อสารเรื่องปัสสาวะ/อุจจาระ</li>
+      </ul>
+      <p>
+        ผ้าอ้อมแบบใส่ช่วยฝึกได้เพราะลูกดึงขึ้น-ลงเองได้เหมือนกางเกง
+        ทำให้เรียนรู้ขั้นตอนการเข้าห้องน้ำได้เร็วขึ้น
+        บางครอบครัวเลือกใช้ "training pants" (ผ้าอ้อมผ้าชนิดพิเศษ) ร่วมด้วยในช่วงกลางวัน
+        ขณะที่ยังคงใช้ผ้าอ้อมแบบใส่ตอนกลางคืนและออกนอกบ้าน
       </p>
 
       <h2 id="tips">เคล็ดลับการเลือกและใช้งาน</h2>

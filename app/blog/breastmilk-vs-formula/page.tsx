@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema } from '@/lib/schema'
+import { articleSchema, faqSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
@@ -76,6 +76,7 @@ const FAQ_ITEMS: FAQItem[] = [
 ]
 
 export default function BreastmilkVsFormulaPage() {
+  const faq = faqSchema(FAQ_ITEMS)
   const schema = articleSchema({
     title: TITLE,
     description: DESCRIPTION,
@@ -103,7 +104,15 @@ export default function BreastmilkVsFormulaPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+      />
 
+      <div className="not-prose mb-6 rounded-xl border border-green-100 bg-green-50 p-4 text-sm text-green-800">
+        ข้อมูลในบทความนี้อ้างอิงจาก <strong>องค์การอนามัยโลก (WHO)</strong>,{' '}
+        <strong>กรมอนามัย กระทรวงสาธารณสุข</strong> และงานวิจัยที่ผ่านการตีพิมพ์ในวารสารการแพทย์ระดับสากล
+      </div>
       <p>
         "นมแม่กับนมผง อันไหนดีกว่า?" เป็นหนึ่งในคำถามที่ถกเถียงกันมากที่สุดในโลกของการเลี้ยงลูก
         คำตอบที่ถูกต้องคือ: ขึ้นอยู่กับแต่ละครอบครัว และไม่มีตัวเลือกที่ "ผิด"

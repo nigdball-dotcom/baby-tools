@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema } from '@/lib/schema'
+import { articleSchema, faqSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
@@ -74,9 +74,15 @@ const FAQ_ITEMS: FAQItem[] = [
     answer:
       'งบสำหรับของใช้เด็กแรกเกิดเริ่มต้นตั้งแต่ 15,000 บาทสำหรับของจำเป็นพื้นฐาน ไปจนถึง 60,000+ บาทหากซื้อสินค้าแบรนด์เนม อ่านเพิ่มเติมที่บทความของใช้เด็กแรกเกิดต้องมีอะไรบ้าง',
   },
+  {
+    question: 'รัฐบาลมีสิทธิ์ประโยชน์อะไรสำหรับพ่อแม่มือใหม่บ้าง?',
+    answer:
+      'สิทธิ์ที่สำคัญ ได้แก่ (1) เงินอุดหนุนเด็กแรกเกิด 600 บาท/เดือน สำหรับครอบครัวรายได้น้อยที่มีรายได้เฉลี่ยต่ำกว่า 100,000 บาท/คน/ปี จนถึงอายุ 6 ปี (2) สิทธิ์ประกันสังคมครอบคลุมค่าคลอดและวัคซีนพื้นฐาน (3) บัตรทองครอบคลุมค่าคลอดและฝากครรภ์ในโรงพยาบาลรัฐ (4) สิทธิ์ลาคลอดของแม่ 90 วัน สอบถามรายละเอียดได้ที่กรมอนามัย กระทรวงสาธารณสุข โทร 1422',
+  },
 ]
 
 export default function BabyFirstYearExpensesPage() {
+  const faq = faqSchema(FAQ_ITEMS)
   const schema = articleSchema({
     title: TITLE,
     description: DESCRIPTION,
@@ -104,7 +110,16 @@ export default function BabyFirstYearExpensesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+      />
 
+      <div className="not-prose mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+        <strong>หมายเหตุ:</strong> ตัวเลขในบทความนี้เน้นที่ <strong>ค่าใช้จ่ายทั้งหมดในปีแรก</strong> รวมค่าคลอดและค่าครั้งเดียว
+        หากต้องการข้อมูลแบบ <strong>แบ่งเป็นรายเดือน</strong> อ่านได้ที่{' '}
+        <a href="/blog/monthly-baby-budget" className="underline">งบประมาณเลี้ยงลูกต่อเดือน</a>
+      </div>
       <p>
         "มีลูกต้องใช้เงินเท่าไร?" เป็นคำถามที่คู่รักทุกคู่ถามก่อนตัดสินใจมีลูก
         คำตอบขึ้นอยู่กับหลายปัจจัย แต่หากไม่มีการวางแผน ค่าใช้จ่ายในปีแรกอาจสูงกว่าที่คาดไว้มาก

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema } from '@/lib/schema'
+import { articleSchema, faqSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
@@ -84,6 +84,7 @@ const FAQ_ITEMS: FAQItem[] = [
 ]
 
 export default function DiaperBrandComparisonPage() {
+  const faq = faqSchema(FAQ_ITEMS)
   const schema = articleSchema({
     title: TITLE,
     description: DESCRIPTION,
@@ -111,7 +112,16 @@ export default function DiaperBrandComparisonPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+      />
 
+      <div className="not-prose mb-6 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-800">
+        <strong>บทความนี้เปรียบเทียบ 5 ยี่ห้อหลักพร้อมตารางราคาและคะแนน</strong>
+        หากต้องการเปรียบเทียบเชิงลึก <strong>MamyPoko กับ BabyLove โดยเฉพาะ</strong> อ่านได้ที่{' '}
+        <a href="/blog/mamypoko-vs-babylove" className="underline">MamyPoko vs BabyLove — เปรียบเทียบเชิงลึก</a>
+      </div>
       <p>
         การเลือก<strong>ผ้าอ้อมเด็ก</strong>เป็นหนึ่งในการตัดสินใจที่พ่อแม่มือใหม่ต้องทำบ่อยที่สุด
         เพราะลูกน้อยจะใช้ผ้าอ้อมวันละ 6–12 ชิ้น ตั้งแต่แรกเกิดจนถึงอายุประมาณ 2–3 ปี
@@ -121,6 +131,10 @@ export default function DiaperBrandComparisonPage() {
         บทความนี้เปรียบเทียบ 5 ยี่ห้อยอดนิยมในไทยอย่างละเอียด พร้อมตารางราคาต่อชิ้น
         เพื่อให้คุณตัดสินใจได้ว่า<strong>ผ้าอ้อมยี่ห้อไหนดีที่สุด</strong>สำหรับลูกและงบประมาณของครอบครัว
       </p>
+      <div className="not-prose mb-6 rounded-xl border border-green-100 bg-green-50 p-4 text-sm text-green-800">
+        ข้อมูลราคาและคุณสมบัติรวบรวมจากฉลากผลิตภัณฑ์จริง ราคาในห้างสรรพสินค้าและแพลตฟอร์มออนไลน์ไทย
+        และความเห็นจากกุมารแพทย์ที่แนะนำผ้าอ้อมให้ผิวบอบบาง ราคาอาจเปลี่ยนแปลงตามโปรโมชั่น
+      </div>
 
       <h2 id="criteria">เกณฑ์การเลือกผ้าอ้อมที่ดี</h2>
       <p>ก่อนจะเปรียบเทียบแต่ละยี่ห้อ ควรเข้าใจว่าผ้าอ้อมที่ดีควรมีคุณสมบัติอะไรบ้าง:</p>
@@ -227,12 +241,14 @@ export default function DiaperBrandComparisonPage() {
       <p><strong>ราคาโดยประมาณ:</strong> 4.00–6.50 บาท/ชิ้น</p>
 
       <h2 id="comparison">ตารางเปรียบเทียบ 5 ยี่ห้อ</h2>
+      <p className="text-sm text-gray-500">* ค่าใช้จ่าย/เดือน คำนวณจากการใช้ 180 ชิ้น/เดือน (6 ชิ้น/วัน ไซส์ M) ที่ราคากลาง</p>
       <div className="not-prose my-4 overflow-x-auto rounded-xl border border-gray-100">
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-blue-50">
               <th className="px-4 py-3 text-left font-semibold text-gray-700">ยี่ห้อ</th>
               <th className="px-4 py-3 text-left font-semibold text-gray-700">ราคา/ชิ้น</th>
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">ค่าใช้จ่าย/เดือน*</th>
               <th className="px-4 py-3 text-left font-semibold text-gray-700">การซับ</th>
               <th className="px-4 py-3 text-left font-semibold text-gray-700">ผิวบอบบาง</th>
               <th className="px-4 py-3 text-left font-semibold text-gray-700">คะแนนรวม</th>
@@ -240,15 +256,16 @@ export default function DiaperBrandComparisonPage() {
           </thead>
           <tbody className="divide-y divide-gray-100">
             {[
-              ['MamyPoko', '2.80–4.50 ฿', '★★★★☆', '★★★☆☆', '★★★★☆'],
-              ['BabyLove', '1.80–3.20 ฿', '★★★☆☆', '★★★☆☆', '★★★★☆ (ราคา)'],
-              ['Merries', '4.50–7.00 ฿', '★★★★★', '★★★★★', '★★★★★'],
-              ['Huggies', '3.00–5.50 ฿', '★★★★★', '★★★★☆', '★★★★☆'],
-              ['Moony', '4.00–6.50 ฿', '★★★★☆', '★★★★★', '★★★★☆'],
-            ].map(([brand, price, abs, sensitive, score]) => (
+              ['MamyPoko', '2.80–4.50 ฿', '~594–810 ฿', '★★★★☆', '★★★☆☆', '★★★★☆'],
+              ['BabyLove', '1.80–3.20 ฿', '~378–576 ฿', '★★★☆☆', '★★★☆☆', '★★★★☆ (ราคา)'],
+              ['Merries', '4.50–7.00 ฿', '~900–1,260 ฿', '★★★★★', '★★★★★', '★★★★★'],
+              ['Huggies', '3.00–5.50 ฿', '~630–990 ฿', '★★★★★', '★★★★☆', '★★★★☆'],
+              ['Moony', '4.00–6.50 ฿', '~810–1,170 ฿', '★★★★☆', '★★★★★', '★★★★☆'],
+            ].map(([brand, price, monthly, abs, sensitive, score]) => (
               <tr key={brand} className="hover:bg-gray-50">
                 <td className="px-4 py-3 font-semibold text-gray-800">{brand}</td>
                 <td className="px-4 py-3 text-gray-600">{price}</td>
+                <td className="px-4 py-3 font-medium text-blue-700">{monthly}</td>
                 <td className="px-4 py-3 text-gray-600">{abs}</td>
                 <td className="px-4 py-3 text-gray-600">{sensitive}</td>
                 <td className="px-4 py-3 text-gray-600">{score}</td>

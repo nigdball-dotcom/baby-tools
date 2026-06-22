@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema } from '@/lib/schema'
+import { articleSchema, faqSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
@@ -76,6 +76,7 @@ const FAQ_ITEMS: FAQItem[] = [
 ]
 
 export default function MonthlyBabyBudgetPage() {
+  const faq = faqSchema(FAQ_ITEMS)
   const schema = articleSchema({
     title: TITLE,
     description: DESCRIPTION,
@@ -103,7 +104,16 @@ export default function MonthlyBabyBudgetPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+      />
 
+      <div className="not-prose mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+        <strong>บทความนี้เน้นที่ค่าใช้จ่ายรายเดือนจริงๆ</strong> แยกตามช่วงอายุลูก
+        หากต้องการภาพรวมค่าใช้จ่าย<strong>ทั้งปีแรก รวมค่าคลอด</strong> อ่านได้ที่{' '}
+        <a href="/blog/baby-first-year-expenses" className="underline">ค่าใช้จ่ายมีลูกปีแรก</a>
+      </div>
       <p>
         หนึ่งในความกังวลใหญ่ที่สุดของพ่อแม่คือ "เราจะมีเงินพอเลี้ยงลูกไหม?"
         คำตอบขึ้นอยู่กับการวางแผนที่ดี การรู้ล่วงหน้าว่าจะต้องใช้เงินเท่าไรในแต่ละเดือน
