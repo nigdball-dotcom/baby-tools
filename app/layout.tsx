@@ -3,6 +3,7 @@ import { Sarabun } from 'next/font/google'
 import './globals.css'
 import { websiteSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/config'
+import { Analytics } from '@vercel/analytics/next'
 
 const sarabun = Sarabun({
   subsets: ['latin', 'thai'],
@@ -69,7 +70,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       </head>
-      <body className="bg-white text-gray-900 antialiased font-sans">{children}</body>
+      <body className="bg-white text-gray-900 antialiased font-sans">
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
