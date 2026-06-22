@@ -1,4 +1,4 @@
-export const SITE_URL = 'https://babytools.vercel.app'
+export const SITE_URL = 'https://baby-tools-blond.vercel.app'
 export const SITE_NAME = 'BabyTools'
 export const SITE_DESCRIPTION =
   'รวมเครื่องมือฟรีสำหรับพ่อแม่ เช่น คำนวณค่าใช้จ่ายผ้าอ้อมเด็ก ตารางการนอน และคำแนะนำการเลี้ยงลูก'

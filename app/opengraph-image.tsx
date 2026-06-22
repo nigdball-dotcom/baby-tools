@@ -66,7 +66,7 @@ export default function Image() {
             fontWeight: 600,
           }}
         >
-          babytools.vercel.app
+          baby-tools-blond.vercel.app
         </div>
       </div>
     ),
