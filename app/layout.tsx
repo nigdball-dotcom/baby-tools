@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { Sarabun } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import { websiteSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from '@/lib/config'
+import { Analytics } from '@vercel/analytics/react'
 
 const sarabun = Sarabun({
   subsets: ['latin', 'thai'],
@@ -69,7 +71,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       </head>
-      <body className="bg-white text-gray-900 antialiased font-sans">{children}</body>
+      <body className="bg-white text-gray-900 antialiased font-sans">
+        {children}
+        <Analytics />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-EMDETQFZB6"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-EMDETQFZB6');`}
+        </Script>
+      </body>
     </html>
   )
 }
