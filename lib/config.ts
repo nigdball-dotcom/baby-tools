@@ -275,3 +275,31 @@ export const BLOG_POSTS = [
     category: 'ผ้าอ้อมและของใช้เด็ก',
   },
 ] as const
+
+// TODO: Sprint 2.x — replace with dynamic popular posts based on analytics / pageview data
+export const POPULAR_POST_SLUGS: string[] = [
+  'mamypoko-vs-babylove',
+  'newborn-diapers-per-day',
+  'monthly-diaper-cost',
+  'diaper-brand-comparison',
+  'baby-first-year-expenses',
+  'diaper-size-guide',
+]
+
+export interface Topic {
+  slug: string
+  label: string
+  icon: string
+  // TODO: Sprint 2.x — derive count automatically from BLOG_POSTS by category mapping
+  count: number
+  href: string
+}
+
+export const TOPICS: Topic[] = [
+  { slug: 'diapers',  label: 'ผ้าอ้อมและของใช้เด็ก', icon: '👶', count: 9, href: '/blog' },
+  { slug: 'sleep',    label: 'การนอนของลูกน้อย',      icon: '😴', count: 6, href: '/blog' },
+  { slug: 'feeding',  label: 'การให้นมลูก',            icon: '🍼', count: 6, href: '/blog' },
+  { slug: 'finance',  label: 'การวางแผนการเงิน',       icon: '💰', count: 5, href: '/blog' },
+  { slug: 'health',   label: 'สุขภาพและการดูแล',       icon: '❤️', count: 2, href: '/blog' },
+  { slug: 'parenting',label: 'คำแนะนำสำหรับพ่อแม่',   icon: '👨‍👩‍👧', count: 3, href: '/blog' },
+]

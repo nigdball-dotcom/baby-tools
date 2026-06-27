@@ -25,7 +25,7 @@ const features = [
 
 export default function About() {
   return (
-    <section id="about" className="bg-gray-50 py-20 sm:py-28">
+    <section id="about" className="bg-gray-50 py-16 sm:py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -37,24 +37,24 @@ export default function About() {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((f) => (
             <div key={f.title} className="text-center">
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-2xl shadow-sm">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-3xl shadow-sm">
                 {f.icon}
               </div>
-              <h3 className="text-base font-semibold text-gray-900">{f.title}</h3>
-              <p className="mt-2 text-sm text-gray-500 leading-relaxed">{f.description}</p>
+              <h3 className="text-base font-bold text-gray-900">{f.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-600">{f.description}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-16 rounded-2xl bg-blue-600 px-8 py-10 text-center text-white">
+        <div className="mt-12 rounded-2xl bg-blue-600 px-8 py-10 text-center text-white">
           <h3 className="text-2xl font-bold">เครื่องมือใหม่กำลังมา</h3>
-          <p className="mt-3 text-blue-100">
+          <p className="mt-3 text-white">
             ตารางการให้นม ตารางนอน เครื่องคิดวัคซีน และอีกมากมาย
           </p>
-          <p className="mt-6 text-sm text-blue-200">
+          <p className="mt-6 text-sm text-white">
             มีไอเดียเครื่องมือที่อยากได้? อ่านเพิ่มเติมได้ที่{' '}
             <Link href="/blog" className="font-medium text-white underline underline-offset-2">
               บล็อกของเรา
