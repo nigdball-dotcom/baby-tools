@@ -3,8 +3,8 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import Breadcrumb from './Breadcrumb'
 import RelatedArticles from './RelatedArticles'
-import { formatThaiDate } from '@/lib/utils'
-import { AFFILIATE_PRODUCTS } from '@/lib/affiliate'
+import { formatThaiDate, formatUpdatedAt } from '@/lib/utils'
+import { getRecommendedProducts, sortProducts } from '@/lib/affiliate'
 import type { BreadcrumbItem, TOCItem } from '@/types'
 
 interface BlogLayoutProps {
@@ -134,12 +134,13 @@ export default function BlogLayout({
 // ── Inline mini product section for comparison articles ──────────────────────
 
 function RecommendedProductsInline() {
+  const products = sortProducts(getRecommendedProducts('daily'), 'default')
   return (
     <div>
       <h2 className="text-xl font-bold text-gray-900">สินค้าที่กล่าวถึงในบทความ</h2>
       <p className="mt-1 text-sm text-gray-500">ราคาโดยประมาณ อาจแตกต่างตามร้านค้าและโปรโมชั่น</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
-        {Object.values(AFFILIATE_PRODUCTS).map((p) => (
+        {products.map((p) => (
           <a
             key={p.brand}
             href={p.affiliateUrl}
@@ -149,7 +150,12 @@ function RecommendedProductsInline() {
           >
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">{p.brand}</p>
-              <p className="text-sm font-bold text-gray-900">{p.priceRange}</p>
+              <div className="mt-0.5 flex items-center gap-1">
+                <span className="text-xs text-yellow-500">⭐ {p.rating.toFixed(1)}</span>
+                <span className="text-xs text-gray-400">({p.reviewCountLabel})</span>
+              </div>
+              <p className="mt-0.5 text-xs text-gray-400">ข้อมูลอัปเดต {formatUpdatedAt(p.updatedAt)}</p>
+              <p className="mt-1 text-sm font-bold text-gray-900">{p.priceRange}</p>
               <span className="mt-1 inline-block rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">{p.badge}</span>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-blue-500 shrink-0" aria-hidden="true">
@@ -158,6 +164,9 @@ function RecommendedProductsInline() {
           </a>
         ))}
       </div>
+      <p className="mt-3 text-xs text-gray-400">
+        หากคุณซื้อสินค้าผ่านลิงก์นี้ เราอาจได้รับค่าคอมมิชชันโดยไม่มีค่าใช้จ่ายเพิ่มเติมสำหรับคุณ
+      </p>
     </div>
   )
 }
