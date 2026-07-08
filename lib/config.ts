@@ -290,16 +290,24 @@ export interface Topic {
   slug: string
   label: string
   icon: string
-  // TODO: Sprint 2.x — derive count automatically from BLOG_POSTS by category mapping
   count: number
   href: string
 }
 
 export const TOPICS: Topic[] = [
-  { slug: 'diapers',  label: 'ผ้าอ้อมและของใช้เด็ก', icon: '👶', count: 9, href: '/blog' },
-  { slug: 'sleep',    label: 'การนอนของลูกน้อย',      icon: '😴', count: 6, href: '/blog' },
-  { slug: 'feeding',  label: 'การให้นมลูก',            icon: '🍼', count: 6, href: '/blog' },
-  { slug: 'finance',  label: 'การวางแผนการเงิน',       icon: '💰', count: 5, href: '/blog' },
-  { slug: 'health',   label: 'สุขภาพและการดูแล',       icon: '❤️', count: 2, href: '/blog' },
-  { slug: 'parenting',label: 'คำแนะนำสำหรับพ่อแม่',   icon: '👨‍👩‍👧', count: 3, href: '/blog' },
+  { slug: 'diapers',  label: 'ผ้าอ้อมและของใช้เด็ก', icon: '👶', count: 7, href: '/blog/topic/diapers' },
+  { slug: 'sleep',    label: 'การนอนของลูกน้อย',      icon: '😴', count: 6, href: '/blog/topic/sleep' },
+  { slug: 'feeding',  label: 'การให้นมลูก',            icon: '🍼', count: 6, href: '/blog/topic/feeding' },
+  { slug: 'finance',  label: 'การวางแผนการเงิน',       icon: '💰', count: 6, href: '/blog/topic/finance' },
+  { slug: 'health',   label: 'สุขภาพและการดูแล',       icon: '❤️', count: 2, href: '/blog/topic/health' },
+  { slug: 'parenting',label: 'คำแนะนำสำหรับพ่อแม่',   icon: '👨‍👩‍👧', count: 3, href: '/blog/topic/parenting' },
 ]
+
+export const TOPIC_CATEGORY_MAP: Record<string, string[]> = {
+  diapers:   ['คู่มือการเลือกผ้าอ้อม', 'รีวิวและเปรียบเทียบ', 'รีวิวสินค้า', 'ผ้าอ้อมและของใช้เด็ก'],
+  sleep:     ['การนอนของลูกน้อย'],
+  feeding:   ['การให้นมลูก'],
+  finance:   ['การวางแผนการเงิน', 'งบประมาณครอบครัว'],
+  health:    ['สุขภาพและการดูแล'],
+  parenting: ['คำแนะนำสำหรับพ่อแม่'],
+}

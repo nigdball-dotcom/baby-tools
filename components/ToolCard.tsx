@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ArrowIcon from '@/components/icons/ArrowIcon'
 import type { ToolMeta } from '@/types'
 
 export default function ToolCard({ title, description, href, icon, badge, color }: ToolMeta) {
@@ -26,15 +27,7 @@ export default function ToolCard({ title, description, href, icon, badge, color 
 
       <div className="mt-auto flex items-center gap-1 border-t border-gray-100 pt-4 text-sm font-medium text-blue-600">
         <span>เปิดเครื่องมือ</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="h-4 w-4 transition-transform group-hover:translate-x-1"
-          aria-hidden="true"
-        >
-          <path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" />
-        </svg>
+        <ArrowIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
       </div>
     </Link>
   )

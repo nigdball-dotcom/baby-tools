@@ -94,6 +94,7 @@ export default function HuggiesVsMamyPokoPage() {
       slug={SLUG}
       title={TITLE}
       description={DESCRIPTION}
+      showProducts
       date={DATE}
       readingTime="6 นาที"
       category="ผ้าอ้อมและของใช้เด็ก"

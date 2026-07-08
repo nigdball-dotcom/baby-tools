@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import Navbar from '@/components/layout/Navbar'
+import Footer from '@/components/layout/Footer'
 import DiaperCalculator from '@/components/DiaperCalculator'
 import FAQ from '@/components/FAQ'
 import RecommendedProducts from '@/components/RecommendedProducts'
@@ -66,67 +67,54 @@ export default function DiaperCostPage() {
   const appSchema = webApplicationSchema()
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50/60 to-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }}
       />
 
-      {/* Nav */}
-      <header className="border-b border-gray-100 bg-white/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-2 font-bold text-gray-900 text-lg">
-            <span>🍼</span>
-            <span>{SITE_NAME}</span>
-          </Link>
-          <nav className="hidden gap-6 text-sm font-medium text-gray-500 sm:flex">
-            <a href="/#tools" className="hover:text-gray-900 transition-colors">เครื่องมือ</a>
-            <Link href="/blog" className="hover:text-gray-900 transition-colors">บล็อก</Link>
-          </nav>
-        </div>
-      </header>
+      <Navbar activeHref="/tools/diaper-cost" />
 
-      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+      <main id="main-content" className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <Breadcrumb
           items={[
             { label: 'หน้าแรก', href: '/' },
-            { label: 'เครื่องมือ', href: '/#tools' },
             { label: 'คำนวณค่าใช้จ่ายผ้าอ้อมเด็ก' },
           ]}
         />
 
         {/* Page header */}
         <div className="mt-6 text-center">
-          <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-100 text-3xl">
+          <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-100 text-3xl" aria-hidden="true">
             👶
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
             คำนวณค่าใช้จ่ายผ้าอ้อมเด็กต่อเดือน
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-lg text-gray-500">
-            กรอกจำนวนผ้าอ้อมต่อวัน ขนาดแพ็ก และราคา — เราจะคำนวณค่าใช้จ่ายต่อเดือนและต่อปีให้ทันที
+            กรอกข้อมูล 3 ช่อง ดูค่าใช้จ่ายรายเดือนและรายปีทันที ฟรี ไม่ต้องสมัครสมาชิก
           </p>
         </div>
 
-        {/* Calculator */}
+        {/* Calculator — 2-column on desktop */}
         <div className="mt-10">
           <DiaperCalculator />
         </div>
 
         {/* Recommended Products */}
-        <div className="mt-12 border-t border-gray-100 pt-10">
+        <div className="mt-14 border-t border-gray-100 pt-10">
           <RecommendedProducts />
         </div>
 
         {/* Tips */}
-        <div className="mt-8 rounded-2xl bg-amber-50 border border-amber-100 p-6">
+        <div className="mt-8 rounded-2xl border border-amber-100 bg-amber-50 p-6">
           <h2 className="text-lg font-bold text-amber-900">💡 เคล็ดลับประหยัดค่าผ้าอ้อม</h2>
-          <ul className="mt-3 space-y-2 text-sm text-amber-800 leading-relaxed">
+          <ul className="mt-3 space-y-2 text-sm leading-relaxed text-amber-800">
             <li>• <strong>ซื้อยกลัง</strong> — ราคาต่อชิ้นลดลงอย่างมากเมื่อซื้อในปริมาณมาก</li>
-            <li>• <strong>สมัคร Subscribe & Save</strong> — ประหยัดได้ 10–15% ต่อแพ็ก</li>
             <li>• <strong>เปรียบเทียบราคาต่อชิ้น</strong> ไม่ใช่ราคาต่อแพ็ก เพื่อเลือกที่คุ้มค่าที่สุด</li>
-            <li>• <strong>ลองสโตร์แบรนด์</strong> — คุณภาพดีขึ้นมาก ราคาถูกกว่าประมาณ 30%</li>
+            <li>• <strong>ใช้โปรโมชั่นออนไลน์</strong> — Shopee และ Lazada มักมีส่วนลดสำหรับสินค้าแม่และเด็ก</li>
+            <li>• <strong>ลองยี่ห้อที่ประหยัดกว่า</strong> — คุณภาพดีขึ้นมาก ราคาถูกกว่าประมาณ 20–30%</li>
           </ul>
         </div>
 
@@ -139,33 +127,23 @@ export default function DiaperCostPage() {
         <div className="mt-10 rounded-2xl border border-gray-100 bg-white p-6">
           <h2 className="text-lg font-bold text-gray-900">อ่านเพิ่มเติม</h2>
           <ul className="mt-4 space-y-3">
-            <li>
-              <Link href="/blog/newborn-diapers-per-day" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800">
-                <span>→</span>
-                <span>เด็กแรกเกิดใช้ผ้าอ้อมกี่ชิ้นต่อวัน?</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/blog/monthly-diaper-cost" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800">
-                <span>→</span>
-                <span>ผ้าอ้อมเด็กเดือนละกี่บาท? ตารางเปรียบเทียบ</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/blog/mamypoko-vs-babylove" className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800">
-                <span>→</span>
-                <span>MamyPoko vs BabyLove เปรียบเทียบผ้าอ้อมยอดนิยม</span>
-              </Link>
-            </li>
+            {[
+              { href: '/blog/newborn-diapers-per-day', label: 'เด็กแรกเกิดใช้ผ้าอ้อมกี่ชิ้นต่อวัน?' },
+              { href: '/blog/monthly-diaper-cost', label: 'ผ้าอ้อมเด็กเดือนละกี่บาท? ตารางเปรียบเทียบ' },
+              { href: '/blog/mamypoko-vs-babylove', label: 'MamyPoko vs BabyLove เปรียบเทียบผ้าอ้อมยอดนิยม' },
+            ].map((link) => (
+              <li key={link.href}>
+                <a href={link.href} className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 transition-colors">
+                  <span aria-hidden="true">→</span>
+                  <span>{link.label}</span>
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
-      </div>
+      </main>
 
-      <footer className="border-t border-gray-100 py-10 mt-10">
-        <div className="mx-auto max-w-5xl px-4 text-center text-sm text-gray-400 sm:px-6 lg:px-8">
-          <p>© {new Date().getFullYear()} {SITE_NAME} · สร้างด้วยความรักสำหรับพ่อแม่ทุกคน</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

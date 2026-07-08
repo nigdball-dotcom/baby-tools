@@ -84,6 +84,7 @@ export default function MamypokoVsBabylove() {
       slug={SLUG}
       title={TITLE}
       description={DESCRIPTION}
+      showProducts
       date={DATE}
       readingTime="7 นาที"
       category="รีวิวสินค้า"

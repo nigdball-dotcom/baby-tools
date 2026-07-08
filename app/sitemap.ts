@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { SITE_URL, BLOG_POSTS } from '@/lib/config'
+import { SITE_URL, BLOG_POSTS, TOPICS } from '@/lib/config'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
@@ -25,6 +25,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
+  const topicRoutes: MetadataRoute.Sitemap = TOPICS.map((topic) => ({
+    url: `${SITE_URL}/blog/topic/${topic.slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: 0.75,
+  }))
+
   const blogRoutes: MetadataRoute.Sitemap = BLOG_POSTS.map((post) => ({
     url: `${SITE_URL}/blog/${post.slug}`,
     lastModified: new Date(post.date),
@@ -32,5 +39,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  return [...staticRoutes, ...blogRoutes]
+  return [...staticRoutes, ...topicRoutes, ...blogRoutes]
 }

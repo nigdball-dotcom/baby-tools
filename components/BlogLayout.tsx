@@ -4,6 +4,7 @@ import Footer from '@/components/layout/Footer'
 import Breadcrumb from './Breadcrumb'
 import RelatedArticles from './RelatedArticles'
 import { formatThaiDate } from '@/lib/utils'
+import { AFFILIATE_PRODUCTS } from '@/lib/affiliate'
 import type { BreadcrumbItem, TOCItem } from '@/types'
 
 interface BlogLayoutProps {
@@ -132,39 +133,18 @@ export default function BlogLayout({
 
 // ── Inline mini product section for comparison articles ──────────────────────
 
-const INLINE_PRODUCTS = [
-  {
-    brand: 'MamyPoko',
-    badge: 'ขายดีอันดับ 1',
-    priceRange: '350–420 บาท',
-    affiliateUrl: 'https://www.lazada.co.th/catalog/?q=mamypoko+pants+m',
-  },
-  {
-    brand: 'BabyLove',
-    badge: 'คุ้มค่าที่สุด',
-    priceRange: '200–250 บาท',
-    affiliateUrl: 'https://www.lazada.co.th/catalog/?q=babylove+speed+m',
-  },
-  {
-    brand: 'Huggies',
-    badge: 'พรีเมียม',
-    priceRange: '430–500 บาท',
-    affiliateUrl: 'https://www.lazada.co.th/catalog/?q=huggies+gold+m',
-  },
-]
-
 function RecommendedProductsInline() {
   return (
     <div>
       <h2 className="text-xl font-bold text-gray-900">สินค้าที่กล่าวถึงในบทความ</h2>
       <p className="mt-1 text-sm text-gray-500">ราคาโดยประมาณ อาจแตกต่างตามร้านค้าและโปรโมชั่น</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
-        {INLINE_PRODUCTS.map((p) => (
+        {Object.values(AFFILIATE_PRODUCTS).map((p) => (
           <a
             key={p.brand}
             href={p.affiliateUrl}
             target="_blank"
-            rel="noopener noreferrer sponsored"
+            rel="sponsored noopener noreferrer"
             className="flex items-center justify-between rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition hover:shadow-md hover:-translate-y-0.5"
           >
             <div>

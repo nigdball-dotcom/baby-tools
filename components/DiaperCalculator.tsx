@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import type { DiaperFormState, DiaperResults } from '@/types'
 
 function formatTHB(value: number): string {
@@ -12,27 +12,40 @@ function formatTHB(value: number): string {
   )
 }
 
-function ResultCard({
-  label,
-  value,
-  highlight,
-}: {
-  label: string
-  value: string
-  highlight?: boolean
-}) {
-  return (
-    <div
-      className={`rounded-xl p-5 ${highlight ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-900'}`}
-    >
-      <p className={`text-sm font-medium ${highlight ? 'text-blue-100' : 'text-gray-500'}`}>
-        {label}
-      </p>
-      <p className={`mt-1 text-2xl font-bold ${highlight ? 'text-white' : 'text-gray-900'}`}>
-        {value}
-      </p>
-    </div>
-  )
+const AGE_PRESETS = [
+  { label: 'แรกเกิด', hint: '0–1 เดือน', value: '10' },
+  { label: '1–3 เดือน', value: '8' },
+  { label: '3–6 เดือน', value: '7' },
+  { label: '6–12 เดือน', value: '6' },
+  { label: '1–2 ปี', value: '5' },
+  { label: '2+ ปี', value: '4' },
+]
+
+const BRAND_PRESETS = [
+  { label: 'MamyPoko M', perPack: '60', price: '350' },
+  { label: 'BabyLove M', perPack: '60', price: '280' },
+  { label: 'Huggies M', perPack: '58', price: '399' },
+]
+
+const EMPTY_FORM: DiaperFormState = {
+  diapersPerDay: '',
+  diapersPerPack: '',
+  packPrice: '',
+}
+
+function computeResults(form: DiaperFormState): DiaperResults | null {
+  const dpd = parseFloat(form.diapersPerDay)
+  const dpp = parseFloat(form.diapersPerPack)
+  const pp = parseFloat(form.packPrice)
+  if (!dpd || !dpp || !pp || dpd <= 0 || dpp <= 0 || pp <= 0) return null
+  const costPerDiaper = pp / dpp
+  const dailyCost = dpd * costPerDiaper
+  return {
+    costPerDiaper,
+    dailyCost,
+    monthlyCost: dailyCost * 30.44,
+    yearlyCost: dailyCost * 365,
+  }
 }
 
 function InputField({
@@ -68,7 +81,7 @@ function InputField({
           value={value}
           placeholder={placeholder}
           onChange={(e) => onChange(e.target.value)}
-          className="block w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-base text-gray-900 placeholder:text-gray-300 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition pr-16"
+          className="block w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pr-16 text-base text-gray-900 placeholder:text-gray-300 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
         />
         {unit && (
           <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">
@@ -80,16 +93,12 @@ function InputField({
   )
 }
 
-const EMPTY_FORM: DiaperFormState = {
-  diapersPerDay: '',
-  diapersPerPack: '',
-  packPrice: '',
-}
-
 export default function DiaperCalculator() {
   const [form, setForm] = useState<DiaperFormState>(EMPTY_FORM)
-  const [results, setResults] = useState<DiaperResults | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [activeAge, setActiveAge] = useState<string | null>(null)
+  const [activeBrand, setActiveBrand] = useState<string | null>(null)
+
+  const results = useMemo(() => computeResults(form), [form])
 
   const set = useCallback(
     (key: keyof DiaperFormState) => (value: string) =>
@@ -97,54 +106,109 @@ export default function DiaperCalculator() {
     [],
   )
 
-  function calculate() {
-    setError(null)
-    const dpd = parseFloat(form.diapersPerDay)
-    const dpp = parseFloat(form.diapersPerPack)
-    const pp = parseFloat(form.packPrice)
+  function applyAgePreset(preset: (typeof AGE_PRESETS)[number]) {
+    setActiveAge(preset.label)
+    setForm((prev) => ({ ...prev, diapersPerDay: preset.value }))
+  }
 
-    if (isNaN(dpd) || isNaN(dpp) || isNaN(pp)) {
-      setError('กรุณากรอกข้อมูลให้ครบทั้ง 3 ช่อง')
-      return
-    }
-    if (dpd <= 0 || dpp <= 0 || pp <= 0) {
-      setError('ค่าทุกช่องต้องมากกว่า 0')
-      return
-    }
-
-    const costPerDiaper = pp / dpp
-    const dailyCost = dpd * costPerDiaper
-    const monthlyCost = dailyCost * 30.44
-    const yearlyCost = dailyCost * 365
-
-    setResults({ costPerDiaper, dailyCost, monthlyCost, yearlyCost })
+  function applyBrandPreset(preset: (typeof BRAND_PRESETS)[number]) {
+    setActiveBrand(preset.label)
+    setForm((prev) => ({ ...prev, diapersPerPack: preset.perPack, packPrice: preset.price }))
   }
 
   function reset() {
     setForm(EMPTY_FORM)
-    setResults(null)
-    setError(null)
+    setActiveAge(null)
+    setActiveBrand(null)
   }
 
-  return (
-    <div className="mx-auto max-w-lg">
-      {/* Input form */}
-      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm sm:p-8">
-        <h2 className="text-xl font-bold text-gray-900">กรอกข้อมูลผ้าอ้อม</h2>
-        <p className="mt-1 text-sm text-gray-500">
-          กรอกข้อมูล 3 ช่องแล้วกด คำนวณ เพื่อดูผลลัพธ์ทันที
-        </p>
+  const hasInput = form.diapersPerDay || form.diapersPerPack || form.packPrice
 
-        <div className="mt-6 space-y-5">
+  return (
+    <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+      {/* ---- Left: Form ---- */}
+      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm sm:p-8">
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">กรอกข้อมูลผ้าอ้อม</h2>
+            <p className="mt-1 text-sm text-gray-500">
+              แก้ไขค่าใดก็ได้ ผลลัพธ์จะอัปเดตทันที
+            </p>
+          </div>
+          {hasInput && (
+            <button
+              type="button"
+              onClick={reset}
+              className="ml-4 shrink-0 rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-500 transition hover:bg-gray-50"
+            >
+              เริ่มใหม่
+            </button>
+          )}
+        </div>
+
+        {/* Age quick-select */}
+        <div className="mt-6">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
+            อายุลูกน้อย (เพื่อตั้งค่าอัตโนมัติ)
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {AGE_PRESETS.map((p) => (
+              <button
+                key={p.label}
+                type="button"
+                onClick={() => applyAgePreset(p)}
+                className={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
+                  activeAge === p.label
+                    ? 'border-blue-600 bg-blue-600 text-white'
+                    : 'border-gray-200 bg-white text-gray-600 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700'
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Diaper count input */}
+        <div className="mt-5">
           <InputField
             id="diapersPerDay"
             label="จำนวนผ้าอ้อมที่ใช้ต่อวัน"
             value={form.diapersPerDay}
             placeholder="เช่น 8"
-            hint="ลูกน้อยใช้ผ้าอ้อมกี่ชิ้นต่อวัน? (เด็กแรกเกิดโดยทั่วไป 8–12 ชิ้น)"
             unit="ชิ้น"
-            onChange={set('diapersPerDay')}
+            onChange={(v) => {
+              setActiveAge(null)
+              set('diapersPerDay')(v)
+            }}
           />
+        </div>
+
+        {/* Brand quick-fill */}
+        <div className="mt-6">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
+            ยี่ห้อยอดนิยม (กรอกราคาอัตโนมัติ)
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {BRAND_PRESETS.map((b) => (
+              <button
+                key={b.label}
+                type="button"
+                onClick={() => applyBrandPreset(b)}
+                className={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
+                  activeBrand === b.label
+                    ? 'border-blue-600 bg-blue-600 text-white'
+                    : 'border-gray-200 bg-white text-gray-600 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700'
+                }`}
+              >
+                {b.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Pack size + price inputs */}
+        <div className="mt-5 space-y-4">
           <InputField
             id="diapersPerPack"
             label="จำนวนผ้าอ้อมต่อแพ็ก"
@@ -152,7 +216,10 @@ export default function DiaperCalculator() {
             placeholder="เช่น 60"
             hint="แพ็กที่คุณซื้อมีผ้าอ้อมกี่ชิ้น?"
             unit="ชิ้น"
-            onChange={set('diapersPerPack')}
+            onChange={(v) => {
+              setActiveBrand(null)
+              set('diapersPerPack')(v)
+            }}
           />
           <InputField
             id="packPrice"
@@ -161,57 +228,67 @@ export default function DiaperCalculator() {
             placeholder="เช่น 350"
             hint="แพ็กนั้นราคาเท่าไร?"
             unit="บาท"
-            onChange={set('packPrice')}
+            onChange={(v) => {
+              setActiveBrand(null)
+              set('packPrice')(v)
+            }}
           />
-        </div>
-
-        {error && (
-          <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600" role="alert">
-            {error}
-          </p>
-        )}
-
-        <div className="mt-6 flex gap-3">
-          <button
-            type="button"
-            onClick={calculate}
-            className="flex-1 rounded-xl bg-blue-600 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-blue-700 active:scale-95"
-          >
-            คำนวณ
-          </button>
-          {results && (
-            <button
-              type="button"
-              onClick={reset}
-              className="rounded-xl border border-gray-200 px-5 py-3.5 text-base font-medium text-gray-600 transition hover:bg-gray-50 active:scale-95"
-            >
-              เริ่มใหม่
-            </button>
-          )}
         </div>
       </div>
 
-      {/* Results */}
-      {results && (
-        <div className="mt-6 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm sm:p-8">
-          <h2 className="text-xl font-bold text-gray-900">ผลการคำนวณค่าผ้าอ้อม</h2>
-          <p className="mt-1 text-sm text-gray-500">
-            จาก {form.diapersPerDay} ชิ้น/วัน · แพ็กละ {form.diapersPerPack} ชิ้น ·
-            ราคา {form.packPrice} บาท
-          </p>
+      {/* ---- Right: Results ---- */}
+      <div className="lg:sticky lg:top-8 lg:self-start">
+        {results ? (
+          <div className="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm sm:p-8">
+            <h2 className="text-xl font-bold text-gray-900">ผลการคำนวณค่าผ้าอ้อม</h2>
+            <p className="mt-1 text-sm text-gray-500">
+              {form.diapersPerDay} ชิ้น/วัน · {form.diapersPerPack} ชิ้น/แพ็ก ·{' '}
+              {form.packPrice} บาท/แพ็ก
+            </p>
 
-          <div className="mt-5 grid grid-cols-2 gap-3">
-            <ResultCard label="ราคาต่อชิ้น" value={formatTHB(results.costPerDiaper)} />
-            <ResultCard label="ค่าใช้จ่ายต่อวัน" value={formatTHB(results.dailyCost)} />
-            <ResultCard label="ค่าใช้จ่ายต่อเดือน" value={formatTHB(results.monthlyCost)} highlight />
-            <ResultCard label="ค่าใช้จ่ายต่อปี" value={formatTHB(results.yearlyCost)} highlight />
+            {/* Primary result — monthly */}
+            <div className="mt-5 rounded-2xl bg-blue-600 p-6 text-white">
+              <p className="text-sm font-medium text-blue-200">ค่าใช้จ่ายต่อเดือน</p>
+              <p className="mt-1 text-4xl font-extrabold tracking-tight">
+                {formatTHB(results.monthlyCost)}
+              </p>
+              <p className="mt-1 text-sm text-blue-200">≈ {formatTHB(results.dailyCost)} / วัน</p>
+            </div>
+
+            {/* Secondary results */}
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <div className="rounded-xl bg-gray-50 p-4">
+                <p className="text-xs font-medium text-gray-500">ค่าใช้จ่ายต่อปี</p>
+                <p className="mt-1 text-lg font-bold text-gray-900">
+                  {formatTHB(results.yearlyCost)}
+                </p>
+              </div>
+              <div className="rounded-xl bg-gray-50 p-4">
+                <p className="text-xs font-medium text-gray-500">ราคาต่อชิ้น</p>
+                <p className="mt-1 text-lg font-bold text-gray-900">
+                  {formatTHB(results.costPerDiaper)}
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-4 text-xs text-gray-400">
+              * คำนวณจาก 30.44 วัน/เดือนโดยเฉลี่ย
+            </p>
           </div>
-
-          <p className="mt-4 text-xs text-gray-400">
-            * คำนวณจาก 30.44 วัน/เดือนโดยเฉลี่ย
-          </p>
-        </div>
-      )}
+        ) : (
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50 p-10 text-center">
+            <div className="text-5xl" aria-hidden="true">
+              🧮
+            </div>
+            <p className="mt-4 text-base font-semibold text-gray-700">
+              ผลการคำนวณจะแสดงที่นี่
+            </p>
+            <p className="mt-1 text-sm text-gray-400">
+              กรอกข้อมูลด้านซ้ายเพื่อดูค่าใช้จ่ายทันที
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

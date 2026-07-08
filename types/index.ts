@@ -45,6 +45,14 @@ export interface BlogPost {
   category: string
 }
 
+export interface Topic {
+  slug: string
+  label: string
+  icon: string
+  count: number
+  href: string
+}
+
 export interface BreadcrumbItem {
   label: string
   href?: string

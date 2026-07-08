@@ -98,6 +98,7 @@ export default function DiaperBrandComparisonPage() {
       slug={SLUG}
       title={TITLE}
       description={DESCRIPTION}
+      showProducts
       date={DATE}
       readingTime="8 นาที"
       category="รีวิวและเปรียบเทียบ"
