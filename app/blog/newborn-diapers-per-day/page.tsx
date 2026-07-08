@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema } from '@/lib/schema'
+import { articleSchema, faqSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
 const SLUG = 'newborn-diapers-per-day'
-const TITLE = 'เด็กแรกเกิดใช้ผ้าอ้อมกี่ชิ้นต่อวัน? คู่มือฉบับสมบูรณ์ปี 2026'
+const TITLE = 'เด็กแรกเกิดใช้ผ้าอ้อมกี่ชิ้นต่อวัน 2026: 8–12 ชิ้น แยกตามอายุ'
 const DESCRIPTION =
-  'เด็กแรกเกิดใช้ผ้าอ้อมเฉลี่ย 8–12 ชิ้นต่อวัน คู่มือนี้อธิบายจำนวนผ้าอ้อมตามช่วงอายุ วิธีรู้ว่าต้องเปลี่ยน และเคล็ดลับประหยัดค่าใช้จ่าย'
+  'เด็กแรกเกิด–1 เดือนใช้ผ้าอ้อม 8–12 ชิ้น/วัน หรือ 240–365 ชิ้น/เดือน ตารางแยกตามอายุ 0–3 เดือนถึง 2 ปี พร้อมวิธีรู้เวลาเปลี่ยน เคล็ดลับประหยัด และเครื่องคำนวณค่าผ้าอ้อมฟรี ปี 2026'
 const DATE = '2026-06-01'
 const URL = `/blog/${SLUG}`
 
@@ -20,6 +20,7 @@ export const metadata: Metadata = {
     'เด็กแรกเกิดใช้ผ้าอ้อมกี่ชิ้น',
     'ผ้าอ้อมเด็กแรกเกิดต่อวัน',
     'จำนวนผ้าอ้อมต่อวัน',
+    'เปลี่ยนผ้าอ้อมทุกกี่ชั่วโมง',
     'ผ้าอ้อมทารก',
   ],
   alternates: { canonical: `${SITE_URL}${URL}` },
@@ -29,15 +30,14 @@ export const metadata: Metadata = {
     url: `${SITE_URL}${URL}`,
     type: 'article',
     publishedTime: DATE,
-    modifiedTime: '2026-06-22',
+    modifiedTime: '2026-07-08',
     locale: 'th_TH',
     siteName: SITE_NAME,
   },
 }
 
 const TOC: TOCItem[] = [
-  { id: 'answer', label: 'คำตอบสั้นๆ: กี่ชิ้นต่อวัน?' },
-  { id: 'by-age', label: 'จำนวนผ้าอ้อมตามช่วงอายุ' },
+  { id: 'by-age', label: 'ตารางจำนวนผ้าอ้อมตามช่วงอายุ' },
   { id: 'why-so-many', label: 'ทำไมทารกแรกเกิดถึงใช้เยอะ?' },
   { id: 'when-to-change', label: 'วิธีรู้ว่าถึงเวลาเปลี่ยนผ้าอ้อม' },
   { id: 'save-money', label: 'วิธีประหยัดค่าผ้าอ้อม' },
@@ -45,6 +45,16 @@ const TOC: TOCItem[] = [
 ]
 
 const FAQ_ITEMS: FAQItem[] = [
+  {
+    question: 'ควรเปลี่ยนแพมเพิสทุกกี่ชั่วโมง?',
+    answer:
+      'เด็กแรกเกิด–3 เดือนควรเปลี่ยนผ้าอ้อมทุก 2–3 ชั่วโมง หรือ 8–12 ครั้ง/วัน เด็ก 3–6 เดือนเปลี่ยนทุก 3–4 ชั่วโมง (6–8 ครั้ง/วัน) และเด็ก 6 เดือนขึ้นไปเปลี่ยนทุก 4–5 ชั่วโมง (5–6 ครั้ง/วัน) เปลี่ยนทันทีเมื่อมีอุจจาระโดยไม่ต้องรอเวลา',
+  },
+  {
+    question: 'เด็กแรกเกิดใช้ผ้าอ้อมเดือนละกี่ชิ้น?',
+    answer:
+      'เด็กแรกเกิด–1 เดือนใช้ผ้าอ้อมประมาณ 240–365 ชิ้น/เดือน (8–12 ชิ้น/วัน) เมื่ออายุ 1–3 เดือนลดเหลือ 180–300 ชิ้น/เดือน และ 3–6 เดือนลดเหลือ 150–245 ชิ้น/เดือน ตัวเลขนี้ขึ้นอยู่กับเด็กแต่ละคน',
+  },
   {
     question: 'เด็กแรกเกิดต้องเปลี่ยนผ้าอ้อมบ่อยแค่ไหน?',
     answer:
@@ -68,12 +78,13 @@ const FAQ_ITEMS: FAQItem[] = [
 ]
 
 export default function NewbornDiapersPerDayPage() {
+  const faq = faqSchema(FAQ_ITEMS)
   const schema = articleSchema({
     title: TITLE,
     description: DESCRIPTION,
     url: URL,
     datePublished: DATE,
-    dateModified: '2026-06-22',
+    dateModified: '2026-07-08',
   })
 
   return (
@@ -95,19 +106,24 @@ export default function NewbornDiapersPerDayPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+      />
 
       <p>
-        สำหรับพ่อแม่มือใหม่ คำถามยอดฮิตที่มักเกิดขึ้นก่อนลูกคลอดคือ <strong>"ลูกจะใช้ผ้าอ้อมกี่ชิ้นต่อวัน?"</strong>{' '}
-        เพราะการวางแผนซื้อผ้าอ้อมให้เพียงพอโดยไม่สิ้นเปลืองเป็นเรื่องสำคัญสำหรับงบประมาณครอบครัว
+        การวางแผนซื้อผ้าอ้อมให้เพียงพอโดยไม่สิ้นเปลืองเป็นเรื่องสำคัญสำหรับงบประมาณครอบครัว
+        และเป็นคำถามยอดฮิตของพ่อแม่มือใหม่ก่อนลูกคลอด
       </p>
 
-      <h2 id="answer">คำตอบสั้นๆ: กี่ชิ้นต่อวัน?</h2>
       <p>
-        <strong>เด็กแรกเกิดใช้ผ้าอ้อมเฉลี่ย 8–12 ชิ้นต่อวัน</strong> ในสัปดาห์แรกอาจสูงถึง 12–15 ชิ้น
-        เนื่องจากลำไส้ยังปรับตัวและระบบย่อยอาหารทำงานบ่อย แต่ตัวเลขนี้จะลดลงเรื่อยๆ ตามอายุ
+        <strong>คำตอบสั้น:</strong> เด็กแรกเกิด–1 เดือนใช้ผ้าอ้อม{' '}
+        <strong>8–12 ชิ้น/วัน</strong> หรือ <strong>240–365 ชิ้น/เดือน</strong>{' '}
+        (ในสัปดาห์แรกอาจสูงถึง 12–15 ชิ้น เนื่องจากกระเพาะปัสสาวะเล็กมาก)
+        ตัวเลขนี้จะลดลงเรื่อยๆ ตามอายุ — เด็ก 6–12 เดือนใช้เพียง 4–6 ชิ้น/วัน
       </p>
 
-      <h2 id="by-age">จำนวนผ้าอ้อมตามช่วงอายุ</h2>
+      <h2 id="by-age">ตารางจำนวนผ้าอ้อมตามช่วงอายุ</h2>
       <p>ตารางด้านล่างแสดงจำนวนผ้าอ้อมโดยประมาณตามช่วงอายุของลูกน้อย:</p>
 
       <div className="not-prose my-4 overflow-x-auto rounded-xl border border-gray-100">
@@ -140,11 +156,13 @@ export default function NewbornDiapersPerDayPage() {
 
       <p>
         ใช้ตารางนี้เพื่อประมาณจำนวนผ้าอ้อมที่ต้องซื้อ แต่จำไว้ว่าเด็กแต่ละคนแตกต่างกัน
-        บางคนอาจใช้มากหรือน้อยกว่านี้
+        บางคนอาจใช้มากหรือน้อยกว่านี้ เมื่อลูกโตขึ้นควรตรวจสอบ{' '}
+        <Link href="/blog/diaper-size-guide">ตารางไซส์ผ้าอ้อมตามน้ำหนัก</Link>{' '}
+        เพื่อให้แน่ใจว่าใช้ขนาดที่เหมาะสม
       </p>
       <p>
         หากต้องการทราบว่าค่าใช้จ่ายในแต่ละช่วงอายุอยู่ที่เท่าไร อ่านต่อที่{' '}
-        <Link href="/blog/monthly-diaper-cost">ผ้าอ้อมเด็กเดือนละกี่บาท?</Link>
+        <Link href="/blog/monthly-diaper-cost">ค่าผ้าอ้อมต่อเดือน 2026 แยกตามอายุและยี่ห้อ</Link>
       </p>
 
       <h2 id="why-so-many">ทำไมทารกแรกเกิดถึงใช้ผ้าอ้อมเยอะมาก?</h2>
@@ -170,13 +188,19 @@ export default function NewbornDiapersPerDayPage() {
       </ul>
       <p>
         <strong>เคล็ดลับ:</strong> เปลี่ยนผ้าอ้อมทุกครั้งก่อนหรือหลังให้นม เพื่อสร้างเป็นกิจวัตรที่สม่ำเสมอ
+        สำหรับขั้นตอนการเปลี่ยนที่ถูกวิธี อ่านได้ที่{' '}
+        <Link href="/blog/how-to-change-diaper">วิธีเปลี่ยนผ้าอ้อมเด็กแรกเกิด</Link>
       </p>
 
       <h2 id="save-money">วิธีประหยัดค่าผ้าอ้อม</h2>
       <ul>
         <li><strong>ซื้อในปริมาณมาก (ยกลัง)</strong> เมื่อลูกอยู่ในไซส์นั้นอย่างน้อย 1–2 เดือนแล้ว</li>
         <li><strong>เปรียบเทียบราคาต่อชิ้น</strong> ไม่ใช่ราคาต่อแพ็ก เพราะแพ็กใหญ่มักคุ้มกว่าเสมอ</li>
-        <li><strong>ลองยี่ห้อที่ประหยัดกว่า</strong> เช่น BabyLove หรือสโตร์แบรนด์ คุณภาพดีขึ้นมากในปัจจุบัน</li>
+        <li>
+          <strong>ลองยี่ห้อที่ประหยัดกว่า</strong> เช่น{' '}
+          <Link href="/blog/mamypoko-vs-babylove">เปรียบเทียบ MamyPoko กับ BabyLove</Link>{' '}
+          คุณภาพดีขึ้นมากในปัจจุบัน
+        </li>
         <li>
           <strong>คำนวณด้วยเครื่องมือของเรา</strong> —{' '}
           <Link href="/tools/diaper-cost">เครื่องคำนวณค่าผ้าอ้อม</Link>{' '}
