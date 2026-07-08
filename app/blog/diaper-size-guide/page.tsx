@@ -7,9 +7,9 @@ import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
 const SLUG = 'diaper-size-guide'
-const TITLE = 'ไซส์ผ้าอ้อมเด็กทุกยี่ห้อ เลือกขนาดไหนให้พอดีกับลูก?'
+const TITLE = 'ตารางไซส์ผ้าอ้อม 2026: MamyPoko · BabyLove · Merries · Huggies · Moony'
 const DESCRIPTION =
-  'ตารางไซส์ผ้าอ้อมเด็กทุกยี่ห้อ ทั้ง MamyPoko, BabyLove, Merries, Huggies และ Moony พร้อมวิธีรู้ว่าผ้าอ้อมไซส์เหมาะสมหรือไม่ และเมื่อไหรควรเปลี่ยนไซส์'
+  'ตารางไซส์ผ้าอ้อม MamyPoko, BabyLove, Merries, Huggies และ Moony ปี 2026 แบ่งตามน้ำหนักเด็ก พร้อมวิธีรู้ว่าผ้าอ้อมเล็กหรือใหญ่เกินไป และสัญญาณที่บอกว่าถึงเวลาเปลี่ยนไซส์'
 const DATE = '2026-06-22'
 const URL = `/blog/${SLUG}`
 
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 }
 
 const TOC: TOCItem[] = [
-  { id: 'intro', label: 'ไซส์ผ้าอ้อมมีกี่แบบ?' },
+  { id: 'intro', label: 'ตารางไซส์ผ้าอ้อมตามน้ำหนัก' },
   { id: 'mamypoko', label: 'ตารางไซส์ MamyPoko' },
   { id: 'babylove', label: 'ตารางไซส์ BabyLove' },
   { id: 'merries', label: 'ตารางไซส์ Merries' },
@@ -74,6 +74,11 @@ const FAQ_ITEMS: FAQItem[] = [
     question: 'ผ้าอ้อมรั่วบ่อยหมายความว่าอะไร?',
     answer:
       'มักหมายความว่าผ้าอ้อมเล็กเกินไป หรือแถบยางที่ขาพับเข้าข้างใน หรือใส่ผ้าอ้อมไม่ถูกวิธี ลองเปลี่ยนไซส์ใหญ่ขึ้นหนึ่งขนาด หรืออ่านวิธีใส่ผ้าอ้อมที่ถูกต้องได้ที่บทความวิธีเปลี่ยนผ้าอ้อม',
+  },
+  {
+    question: 'ผ้าอ้อมสำหรับเด็กแรกเกิดควรใช้ไซส์อะไร?',
+    answer:
+      'เด็กแรกเกิดน้ำหนัก 2–5 กก. ควรใช้ไซส์ NB (Newborn) ซึ่งมีรอยตัดพิเศษสำหรับสายสะดือ เด็กส่วนใหญ่จะอยู่ในไซส์ NB ประมาณ 2–4 สัปดาห์ก่อนเปลี่ยนไปใช้ไซส์ S ขึ้นอยู่กับน้ำหนักตัวและยี่ห้อที่เลือกใช้',
   },
 ]
 
@@ -142,7 +147,39 @@ export default function DiaperSizeGuidePage() {
         บทความนี้รวบรวมตารางไซส์ผ้าอ้อมทุกยี่ห้อยอดนิยมในไทยไว้ในที่เดียว
       </p>
 
-      <h2 id="intro">ไซส์ผ้าอ้อมมีกี่แบบ?</h2>
+      <p>
+        <strong>สรุปโดยย่อ:</strong> ทารกแรกเกิด (2–5 กก.) ใช้<strong>ไซส์ NB (Newborn)</strong>,
+        เด็ก 3–8 กก. ใช้<strong>ไซส์ S</strong>, เด็ก 6–11 กก. ใช้<strong>ไซส์ M</strong>
+        ตารางน้ำหนักละเอียดของแต่ละยี่ห้ออยู่ด้านล่าง
+      </p>
+
+      <div className="not-prose my-4 overflow-x-auto rounded-xl border border-gray-100">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="bg-blue-50">
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">น้ำหนักเด็ก</th>
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">ไซส์แนะนำ</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {[
+              ['2–5 กก.', 'NB'],
+              ['3–8 กก.', 'S'],
+              ['6–11 กก.', 'M'],
+              ['9–14 กก.', 'L'],
+              ['12–17 กก.', 'XL'],
+              ['15+ กก.', 'XXL'],
+            ].map(([weight, size]) => (
+              <tr key={size} className="hover:bg-gray-50">
+                <td className="px-4 py-3 text-gray-600">{weight}</td>
+                <td className="px-4 py-3 font-semibold text-gray-800">{size}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="intro">ตารางไซส์ผ้าอ้อมตามน้ำหนัก</h2>
       <p>
         โดยทั่วไปผ้าอ้อมแบ่งตามน้ำหนักตัวเด็กดังนี้: <strong>NB → S → M → L → XL → XXL</strong>
         บางยี่ห้อมีไซส์ XXXL สำหรับเด็กโตที่ยังไม่ได้ฝึกเข้าห้องน้ำ
@@ -240,6 +277,13 @@ export default function DiaperSizeGuidePage() {
         อย่ารอจนผ้าอ้อมเล็กเกินไปมากแล้วค่อยเปลี่ยน เพราะจะทำให้ลูกเกิดผื่นผ้าอ้อมได้ง่าย
         อ่านเพิ่มเติมเรื่องการเลือกยี่ห้อผ้าอ้อมที่ดีได้ที่{' '}
         <Link href="/blog/diaper-brand-comparison">ผ้าอ้อมยี่ห้อไหนดีที่สุด</Link>
+      </p>
+
+      <p>
+        สำหรับวิธีเปลี่ยนผ้าอ้อมที่ถูกต้อง ดูได้ที่{' '}
+        <Link href="/blog/how-to-change-diaper">วิธีเปลี่ยนผ้าอ้อมเด็กแรกเกิด</Link>{' '}
+        และหากยังไม่แน่ใจว่าจะเลือกยี่ห้อไหน ดูการเปรียบเทียบได้ที่{' '}
+        <Link href="/blog/mamypoko-vs-babylove">MamyPoko vs BabyLove</Link>
       </p>
 
       <div className="not-prose my-6 rounded-2xl bg-blue-600 p-6 text-center text-white">
