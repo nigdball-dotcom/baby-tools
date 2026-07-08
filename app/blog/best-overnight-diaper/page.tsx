@@ -7,9 +7,9 @@ import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
 const SLUG = 'best-overnight-diaper'
-const TITLE = 'ผ้าอ้อมกลางคืนยี่ห้อไหนดี? เปรียบเทียบ 5 ยี่ห้อ'
+const TITLE = 'ผ้าอ้อมกลางคืนยี่ห้อไหนดี 2026? เปรียบเทียบ Huggies, MamyPoko, Merries'
 const DESCRIPTION =
-  'เปรียบเทียบผ้าอ้อมสำหรับกลางคืน 5 ยี่ห้อยอดนิยมในไทย วิธีเลือกผ้าอ้อมที่ทำให้ลูกนอนหลับได้ทั้งคืนโดยไม่รั่ว และสัญญาณที่บอกว่าผ้าอ้อมที่ใช้อยู่ไม่เพียงพอสำหรับกลางคืน'
+  'เปรียบเทียบผ้าอ้อมกลางคืน 5 ยี่ห้อในไทย ปี 2026 — ซึมซับนาน 8–12 ชั่วโมง สำหรับเด็กที่ปัสสาวะมาก พร้อมสัญญาณบอกว่าถึงเวลาเปลี่ยนผ้าอ้อมเฉพาะกลางคืน'
 const DATE = '2026-06-22'
 const URL = `/blog/${SLUG}`
 
@@ -76,6 +76,11 @@ const FAQ_ITEMS: FAQItem[] = [
     answer:
       'เด็กแรกเกิด–3 เดือน แนะนำเปลี่ยนทุกครั้งที่ตื่นนมกลางคืน และทุกครั้งที่อุจจาระ เด็ก 3 เดือนขึ้นไป ถ้าไม่อุจจาระกลางคืน อาจรอจนเช้าโดยใช้ผ้าอ้อมกลางคืนที่ซึมซับสูง',
   },
+  {
+    question: 'ผ้าอ้อมกลางคืนยี่ห้อไหนดีที่สุด 2026?',
+    answer:
+      'หากเด็กปัสสาวะมาก ควรเลือกผ้าอ้อมที่ซึมซับสูง เช่น Huggies Platinum หรือ Merries หากเน้นความคุ้มค่า MamyPoko Extra Dry เป็นตัวเลือกที่ดีในราคาไม่แพง หากผิวแพ้ง่าย แนะนำ Merries หรือ Moony ที่ใช้วัสดุอ่อนโยนกว่า ผ้าอ้อมที่เหมาะสมที่สุดขึ้นอยู่กับปริมาณปัสสาวะ ผิวของเด็ก และงบประมาณของแต่ละครอบครัว',
+  },
 ]
 
 export default function BestOvernightDiaperPage() {
@@ -93,6 +98,7 @@ export default function BestOvernightDiaperPage() {
       slug={SLUG}
       title={TITLE}
       description={DESCRIPTION}
+      showProducts
       date={DATE}
       readingTime="6 นาที"
       category="ผ้าอ้อมและของใช้เด็ก"
@@ -120,6 +126,14 @@ export default function BestOvernightDiaperPage() {
       <p>
         ผ้าอ้อมรั่วกลางดึกเป็นหนึ่งในปัญหาที่พ่อแม่รายงานบ่อยที่สุด และส่งผลโดยตรงต่อคุณภาพการนอนของทั้งครอบครัว
         บทความนี้ตอบชัดๆ ว่าผ้าอ้อมกลางคืนยี่ห้อไหนดีที่สุด และทำไม
+      </p>
+
+      <p>
+        การเลือกผ้าอ้อมกลางคืนที่เหมาะกับลูกขึ้นอยู่กับ<strong>ปริมาณปัสสาวะ</strong>,{' '}
+        <strong>ความบอบบางของผิว</strong> และ<strong>งบประมาณ</strong>
+        ยี่ห้อที่พ่อแม่ไทยนิยมใช้กลางคืน ได้แก่ <strong>Huggies</strong>, <strong>MamyPoko</strong>,{' '}
+        <strong>Merries</strong> และ <strong>Moony</strong> ซึ่งแต่ละยี่ห้อมีจุดเด่นต่างกัน
+        ตารางเปรียบเทียบทั้ง 5 ยี่ห้อพร้อมราคาต่อชิ้นอยู่ด้านล่าง
       </p>
 
       <h2 id="why-different">ทำไมผ้าอ้อมกลางคืนต้องพิเศษ?</h2>
@@ -182,6 +196,11 @@ export default function BestOvernightDiaperPage() {
         <li><strong>งบปานกลาง:</strong> Huggies Platinum ให้ทั้งการซึมซับและการป้องกันรั่วที่ดีที่สุดในกลุ่มนี้</li>
         <li><strong>ผิวแพ้ง่าย/พรีเมียม:</strong> Merries หรือ Moony ผลิตในญี่ปุ่น วัสดุอ่อนโยนที่สุด</li>
       </ul>
+      <p>
+        ดูการคำนวณ{' '}
+        <Link href="/blog/monthly-diaper-cost">ค่าใช้จ่ายผ้าอ้อมต่อเดือน</Link>{' '}
+        แยกตามยี่ห้อที่เลือกใช้
+      </p>
 
       <h2 id="tips">เคล็ดลับให้ลูกนอนหลับทั้งคืน</h2>
       <ul>
@@ -222,6 +241,14 @@ export default function BestOvernightDiaperPage() {
       <p>
         สำหรับผ้าอ้อมแบบกางเกงเทียบกับแบบเทป ดูที่{' '}
         <Link href="/blog/pull-up-vs-tape-diaper">ผ้าอ้อมแบบใส่ vs แบบเทป</Link>
+      </p>
+      <p>
+        ดูตารางไซส์ผ้าอ้อมทุกยี่ห้อก่อนซื้อได้ที่{' '}
+        <Link href="/blog/diaper-size-guide">ตารางไซส์ผ้าอ้อม MamyPoko · BabyLove · Merries · Huggies</Link>
+      </p>
+      <p>
+        เปรียบเทียบ MamyPoko กับ BabyLove แบบละเอียดได้ที่{' '}
+        <Link href="/blog/mamypoko-vs-babylove">MamyPoko vs BabyLove</Link>
       </p>
 
       <h2 id="faq">คำถามที่พบบ่อย</h2>
