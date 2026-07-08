@@ -7,9 +7,9 @@ import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
 const SLUG = 'monthly-diaper-cost'
-const TITLE = 'ผ้าอ้อมเด็กเดือนละกี่บาท? ตารางเปรียบเทียบค่าใช้จ่ายปี 2026'
+const TITLE = 'ค่าผ้าอ้อมต่อเดือน 2026: แยกตามอายุเด็ก ยี่ห้อ และงบประมาณ'
 const DESCRIPTION =
-  'สรุปค่าใช้จ่ายผ้าอ้อมต่อเดือนแยกตามยี่ห้อ พร้อมตารางเปรียบเทียบราคาต่อชิ้น และเคล็ดลับประหยัดงบประมาณสำหรับครอบครัว'
+  'ค่าผ้าอ้อมต่อเดือน ปี 2026 แยกตามอายุเด็ก: 0–3 เดือน ~1,200–1,500 บาท, 6–12 เดือน ~750–900 บาท พร้อมตารางเปรียบเทียบยี่ห้อและเครื่องคำนวณค่าผ้าอ้อมฟรี'
 const DATE = '2026-06-10'
 const URL = `/blog/${SLUG}`
 
@@ -67,6 +67,11 @@ const FAQ_ITEMS: FAQItem[] = [
     answer:
       'ผ้าอ้อมสโตร์แบรนด์และยี่ห้อประหยัดในปัจจุบันมีคุณภาพดีขึ้นมากเมื่อเทียบกับ 5 ปีก่อน หลายยี่ห้อผ่านการทดสอบมาตรฐานเดียวกับยี่ห้อระดับพรีเมียม อย่างไรก็ตาม ถ้าลูกมีผิวแพ้ง่าย อาจต้องลองหลายยี่ห้อก่อนหาตัวที่เหมาะ',
   },
+  {
+    question: 'เด็กแรกเกิดใช้ผ้าอ้อมเดือนละกี่ชิ้น?',
+    answer:
+      'เด็กแรกเกิด–3 เดือนใช้ผ้าอ้อมประมาณ 8–10 ชิ้นต่อวัน หรือ 240–300 ชิ้นต่อเดือน เมื่ออายุ 3–6 เดือนลดเหลือ 6–8 ชิ้น/วัน (~180–240 ชิ้น/เดือน) และ 6–12 เดือนลดเหลือ 5–6 ชิ้น/วัน (~150–180 ชิ้น/เดือน) ตัวเลขนี้ขึ้นอยู่กับเด็กแต่ละคน',
+  },
 ]
 
 export default function MonthlyDiaperCostPage() {
@@ -102,6 +107,40 @@ export default function MonthlyDiaperCostPage() {
         <strong>ค่าผ้าอ้อม</strong>เป็นค่าใช้จ่ายหลักที่พ่อแม่มือใหม่มักประเมินต่ำกว่าความเป็นจริง
         บทความนี้รวบรวมตัวเลขจริงจากยี่ห้อยอดนิยมในไทย พร้อมวิธีวางแผนงบประมาณอย่างชาญฉลาด
       </p>
+
+      <p>
+        <strong>คำตอบสั้น:</strong> ค่าผ้าอ้อมต่อเดือนในปี 2026 อยู่ที่ประมาณ{' '}
+        <strong>450–2,000 บาท</strong> ขึ้นอยู่กับ<strong>อายุเด็ก</strong>{' '}
+        (เด็กแรกเกิดใช้มากกว่าเด็กโต), <strong>จำนวนผ้าอ้อมต่อวัน</strong> และ<strong>ยี่ห้อ</strong>ที่เลือก
+        ตารางค่าใช้จ่ายแยกตามอายุและยี่ห้ออยู่ด้านล่าง
+      </p>
+
+      <div className="not-prose my-4 overflow-x-auto rounded-xl border border-gray-100">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="bg-blue-50">
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">อายุเด็ก</th>
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">ผ้าอ้อมต่อวัน</th>
+              <th className="px-4 py-3 text-left font-semibold text-gray-700">ค่าใช้จ่ายต่อเดือน*</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {[
+              ['0–3 เดือน', '8–10 ชิ้น', '~1,200–1,500 บาท'],
+              ['3–6 เดือน', '6–8 ชิ้น', '~900–1,200 บาท'],
+              ['6–12 เดือน', '5–6 ชิ้น', '~750–900 บาท'],
+              ['1–2 ปี', '3–5 ชิ้น', '~450–750 บาท'],
+            ].map(([age, qty, cost]) => (
+              <tr key={age} className="hover:bg-gray-50">
+                <td className="px-4 py-3 font-semibold text-gray-800">{age}</td>
+                <td className="px-4 py-3 text-gray-600">{qty}</td>
+                <td className="px-4 py-3 font-semibold text-blue-700">{cost}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-xs text-gray-400">* คำนวณจากยี่ห้อกลาง ราคา ~5–6 บาท/ชิ้น</p>
 
       <h2 id="average">ค่าใช้จ่ายเฉลี่ยต่อเดือน</h2>
       <p>
@@ -159,6 +198,10 @@ export default function MonthlyDiaperCostPage() {
         <li><strong>6–12 เดือน</strong> (5–6 ชิ้น/วัน): ~750–900 บาท/เดือน</li>
         <li><strong>1–2 ปี</strong> (3–5 ชิ้น/วัน): ~450–750 บาท/เดือน</li>
       </ul>
+      <p>
+        สำหรับการเลือกไซส์ผ้าอ้อมที่เหมาะกับน้ำหนักลูกในแต่ละช่วงอายุ ดูได้ที่{' '}
+        <Link href="/blog/diaper-size-guide">ตารางไซส์ผ้าอ้อม MamyPoko · BabyLove · Merries · Huggies</Link>
+      </p>
 
       <h2 id="tips">วิธีลดค่าใช้จ่ายผ้าอ้อม</h2>
       <ol>
@@ -184,6 +227,8 @@ export default function MonthlyDiaperCostPage() {
         จำนวนที่ใช้ต่อวัน และราคาที่ซื้อได้จริง ลองใช้{' '}
         <Link href="/tools/diaper-cost">เครื่องคำนวณค่าผ้าอ้อมของเรา</Link>{' '}
         เพื่อดูตัวเลขที่แม่นยำสำหรับสถานการณ์ของคุณโดยเฉพาะ
+        หากใช้ผ้าอ้อมกลางคืนแยกจากกลางวัน ต้นทุนอาจสูงขึ้น ดูคำแนะนำได้ที่{' '}
+        <Link href="/blog/best-overnight-diaper">ผ้าอ้อมกลางคืนยี่ห้อไหนดี 2026</Link>
       </p>
 
       <h2 id="faq">คำถามที่พบบ่อย</h2>
