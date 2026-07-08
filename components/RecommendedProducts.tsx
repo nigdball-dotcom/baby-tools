@@ -1,42 +1,30 @@
-import type { Product } from '@/types'
+import { AFFILIATE_PRODUCTS } from '@/lib/affiliate'
 
-const PRODUCTS: Product[] = [
-  {
-    id: 'mamypoko-pants-m',
-    brand: 'MamyPoko',
-    title: 'MamyPoko Pants Standard ไซส์ M (62 ชิ้น)',
-    description: 'ผ้าอ้อมสำเร็จรูปแบบกางเกง ซับซึมดีเยี่ยม ไม่ระคายเคืองผิวบอบบาง ผ่านการทดสอบจากผิวแพทย์',
-    priceRange: '350–420 บาท',
-    affiliateUrl: '#',
-    badge: 'ขายดีอันดับ 1',
-    color: 'bg-orange-50 border-orange-200',
-  },
-  {
-    id: 'babylove-pants-m',
-    brand: 'BabyLove',
-    title: 'BabyLove Speed+ Pants ไซส์ M (50 ชิ้น)',
-    description: 'ผ้าอ้อมยี่ห้อไทยคุณภาพสูง ราคาคุ้มค่า ซับเร็ว แห้งเร็ว เหมาะสำหรับการใช้งานประจำวัน',
-    priceRange: '200–250 บาท',
-    affiliateUrl: '#',
-    badge: 'คุ้มค่าที่สุด',
-    color: 'bg-green-50 border-green-200',
-  },
-  {
-    id: 'huggies-gold-m',
-    brand: 'Huggies',
-    title: 'Huggies Gold Pants ไซส์ M (56 ชิ้น)',
-    description: 'ผ้าอ้อมระดับพรีเมียม ผิวสัมผัสนุ่มเหมือนผ้า เหมาะสำหรับผิวบอบบางแพ้ง่าย ดูดซับได้นาน 12 ชั่วโมง',
-    priceRange: '430–500 บาท',
-    affiliateUrl: '#',
-    badge: 'พรีเมียม',
-    color: 'bg-blue-50 border-blue-200',
-  },
-]
+const PRODUCT_UI_CONFIG = [
+  { key: 'mamypoko', id: 'mamypoko-pants-m', color: 'bg-orange-50 border-orange-200' },
+  { key: 'babylove', id: 'babylove-pants-m', color: 'bg-green-50 border-green-200' },
+  { key: 'huggies',  id: 'huggies-gold-m',   color: 'bg-blue-50 border-blue-200' },
+] as const
 
-function ProductCard({ product }: { product: Product }) {
+const PRODUCTS = PRODUCT_UI_CONFIG.map(({ key, id, color }) => {
+  const aff = AFFILIATE_PRODUCTS[key]
+  return {
+    id,
+    brand: aff.brand,
+    title: aff.productName,
+    description: aff.highlights.join(' · '),
+    priceRange: aff.priceRange,
+    affiliateUrl: aff.affiliateUrl,
+    badge: aff.badge,
+    color,
+  }
+})
+
+type ProductEntry = (typeof PRODUCTS)[number]
+
+function ProductCard({ product }: { product: ProductEntry }) {
   return (
     <div className={`rounded-2xl border p-5 ${product.color}`}>
-      {/* Brand icon placeholder */}
       <div className="mb-3 flex items-center justify-between">
         <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm text-lg font-bold text-gray-700">
           {product.brand.charAt(0)}
@@ -58,7 +46,8 @@ function ProductCard({ product }: { product: Product }) {
         <span className="text-sm font-semibold text-gray-900">{product.priceRange}</span>
         <a
           href={product.affiliateUrl}
-          rel="noopener noreferrer sponsored"
+          target="_blank"
+          rel="sponsored noopener noreferrer"
           aria-label={`ดูสินค้า ${product.title}`}
           className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-95"
         >
