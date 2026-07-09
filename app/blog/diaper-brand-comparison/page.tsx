@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema, faqSchema } from '@/lib/schema'
+import { articleSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
 const SLUG = 'diaper-brand-comparison'
 const TITLE = 'ผ้าอ้อมยี่ห้อไหนดีที่สุดในปี 2026? เปรียบเทียบ 5 ยี่ห้อยอดนิยมในไทย'
 const DESCRIPTION =
-  'เปรียบเทียบผ้าอ้อมยี่ห้อดังในไทยปี 2026 ทั้ง MamyPoko, BabyLove, Merries, Huggies และ Moony ด้านคุณภาพ ราคา และความเหมาะสมกับผิวเด็ก พร้อมคำแนะนำการเลือกที่ดีที่สุดสำหรับลูกน้อยของคุณ'
+  'ผ้าอ้อมยี่ห้อไหนดี? เปรียบเทียบ MamyPoko, BabyLove, Merries, Huggies และ Moony ด้านราคา (1.80–7.00 ฿/ชิ้น) การซับซึม และความอ่อนโยนต่อผิว พร้อมแนะนำว่าควรเลือกยี่ห้อไหนและเมื่อไร'
 const DATE = '2026-06-22'
 const URL = `/blog/${SLUG}`
 
@@ -64,7 +64,7 @@ const FAQ_ITEMS: FAQItem[] = [
   {
     question: 'ควรเลือกผ้าอ้อมแบบเทปหรือแบบใส่?',
     answer:
-      'แบบเทปเหมาะสำหรับเด็กแรกเกิดถึงอายุ 6–8 เดือน เพราะปรับได้ตามรูปร่าง แบบใส่เหมาะสำหรับเด็กที่เริ่มพลิกตัวและคืบคลาน เนื่องจากใส่ถอดได้สะดวก อ่านเพิ่มเติมที่ <a href="/blog/pull-up-vs-tape-diaper">ผ้าอ้อมแบบใส่ vs แบบเทป</a>',
+      'แบบเทปเหมาะสำหรับเด็กแรกเกิดถึงอายุ 6–8 เดือน เพราะปรับได้ตามรูปร่าง แบบใส่เหมาะสำหรับเด็กที่เริ่มพลิกตัวและคืบคลาน เนื่องจากใส่ถอดได้สะดวก ดูรายละเอียดเพิ่มเติมได้ในบทความผ้าอ้อมแบบใส่ vs แบบเทป ความแตกต่างที่พ่อแม่ควรรู้',
   },
   {
     question: 'ซื้อผ้าอ้อมยกลังคุ้มไหม?',
@@ -77,14 +77,13 @@ const FAQ_ITEMS: FAQItem[] = [
       'Merries ราคาสูงกว่าเฉลี่ย 30–50% แต่สำหรับเด็กที่มีปัญหาผื่นผ้าอ้อมบ่อย อาจคุ้มค่ากว่าเมื่อคิดรวมค่ายาและค่าพบแพทย์ สำหรับเด็กผิวปกติ BabyLove หรือ MamyPoko ให้ประสิทธิภาพใกล้เคียงกันในราคาที่ถูกกว่า',
   },
   {
-    question: 'ผ้าอ้อมแต่ละยี่ห้อซื้อได้จากที่ไหน?',
+    question: 'ผ้าอ้อมยี่ห้อไหนซึมซับดีที่สุด?',
     answer:
-      'ทุกยี่ห้อมีจำหน่ายทั้งที่ Lotus, Big C, Tops, Villa Market และห้างสรรพสินค้าทั่วไป รวมถึงช้อปปิ้งออนไลน์อย่าง Lazada, Shopee และ JD Central ซึ่งมักมีโปรโมชั่นราคาถูกกว่า',
+      'Merries และ Huggies มีประสิทธิภาพการซับซึมสูงที่สุดในกลุ่มทดสอบ เหมาะสำหรับเด็กที่ฉี่ปริมาณมากหรือต้องใส่นานหลายชั่วโมง MamyPoko Extra Dry เป็นตัวเลือกที่ดีในระดับราคากลาง ส่วน BabyLove Speed+ เหมาะกับการใช้งานกลางวันที่เปลี่ยนบ่อย สำหรับกลางคืนโดยเฉพาะ แนะนำ Huggies หรือ MamyPoko Extra Dry มากกว่า BabyLove',
   },
 ]
 
 export default function DiaperBrandComparisonPage() {
-  const faq = faqSchema(FAQ_ITEMS)
   const schema = articleSchema({
     title: TITLE,
     description: DESCRIPTION,
@@ -113,24 +112,28 @@ export default function DiaperBrandComparisonPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
-      />
 
       <div className="not-prose mb-6 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-800">
         <strong>บทความนี้เปรียบเทียบ 5 ยี่ห้อหลักพร้อมตารางราคาและคะแนน</strong>
-        หากต้องการเปรียบเทียบเชิงลึก <strong>MamyPoko กับ BabyLove โดยเฉพาะ</strong> อ่านได้ที่{' '}
-        <a href="/blog/mamypoko-vs-babylove" className="underline">MamyPoko vs BabyLove — เปรียบเทียบเชิงลึก</a>
+        {' '}หากต้องการเปรียบเทียบเชิงลึก <strong>MamyPoko กับ BabyLove โดยเฉพาะ</strong> อ่านได้ที่{' '}
+        <Link href="/blog/mamypoko-vs-babylove" className="underline">MamyPoko vs BabyLove — เปรียบเทียบเชิงลึก</Link>
       </div>
       <p>
         การเลือก<strong>ผ้าอ้อมเด็ก</strong>เป็นหนึ่งในการตัดสินใจที่พ่อแม่มือใหม่ต้องทำบ่อยที่สุด
-        เพราะลูกน้อยจะใช้ผ้าอ้อมวันละ 6–12 ชิ้น ตั้งแต่แรกเกิดจนถึงอายุประมาณ 2–3 ปี
-        นั่นหมายความว่าค่าใช้จ่ายด้านผ้าอ้อมอาจสูงถึง 15,000–30,000 บาทต่อปีขึ้นอยู่กับยี่ห้อที่เลือก
+        เพราะลูกน้อยจะใช้{' '}
+        <Link href="/blog/newborn-diapers-per-day">ผ้าอ้อมวันละ 8–12 ชิ้นในช่วงแรกเกิด</Link>{' '}
+        และลดลงเหลือ 6–8 ชิ้นเมื่อโตขึ้น ตั้งแต่แรกเกิดจนถึงอายุประมาณ 2–3 ปี
+        ค่าใช้จ่ายด้านผ้าอ้อมอาจสูงถึง 15,000–30,000 บาทต่อปีขึ้นอยู่กับยี่ห้อที่เลือก
       </p>
       <p>
         บทความนี้เปรียบเทียบ 5 ยี่ห้อยอดนิยมในไทยอย่างละเอียด พร้อมตารางราคาต่อชิ้น
         เพื่อให้คุณตัดสินใจได้ว่า<strong>ผ้าอ้อมยี่ห้อไหนดีที่สุด</strong>สำหรับลูกและงบประมาณของครอบครัว
+      </p>
+      <p>
+        <strong>คำตอบสั้น:</strong> ไม่มีผ้าอ้อมยี่ห้อไหนดีที่สุดสำหรับเด็กทุกคน
+        ถ้างบประมาณจำกัด <strong>BabyLove</strong> คุ้มค่าที่สุดสำหรับกลางวัน
+        ถ้าต้องการซับซึมสูงสำหรับกลางคืน <strong>Huggies</strong> หรือ <strong>MamyPoko Extra Dry</strong> เหมาะกว่า
+        ถ้าลูกมีผิวบอบบาง <strong>Merries</strong> หรือ <strong>Moony</strong> ได้รับการแนะนำจากกุมารแพทย์มากที่สุด
       </p>
       <div className="not-prose mb-6 rounded-xl border border-green-100 bg-green-50 p-4 text-sm text-green-800">
         ข้อมูลราคาและคุณสมบัติรวบรวมจากฉลากผลิตภัณฑ์จริง ราคาในห้างสรรพสินค้าและแพลตฟอร์มออนไลน์ไทย
@@ -185,6 +188,10 @@ export default function DiaperBrandComparisonPage() {
         <li>แถบยางที่ขาบางรุ่นไม่แน่นพอ</li>
       </ul>
       <p><strong>ราคาโดยประมาณ:</strong> 1.80–3.20 บาท/ชิ้น</p>
+      <p>
+        เปรียบเทียบ BabyLove กับ Huggies โดยตรงได้ที่{' '}
+        <Link href="/blog/babylove-vs-huggies">BabyLove vs Huggies อันไหนดีกว่า?</Link>
+      </p>
 
       <h2 id="merries">Merries — พรีเมียมจากญี่ปุ่น ดีที่สุดสำหรับผิวบอบบาง</h2>
       <p>
@@ -222,6 +229,12 @@ export default function DiaperBrandComparisonPage() {
         <li>หนากว่ายี่ห้ออื่น อาจดูเทอะทะกับเด็กขาเล็ก</li>
       </ul>
       <p><strong>ราคาโดยประมาณ:</strong> 3.00–5.50 บาท/ชิ้น</p>
+      <p>
+        ต้องการผ้าอ้อมที่ซับซึมได้ตลอดคืนโดยเฉพาะ? ดูได้ที่{' '}
+        <Link href="/blog/best-overnight-diaper">ผ้าอ้อมกลางคืนที่ดีที่สุด 2026</Link>
+        {' '}หรือเปรียบเทียบ Huggies กับ MamyPoko เชิงลึกได้ที่{' '}
+        <Link href="/blog/huggies-vs-mamypoko">Huggies vs MamyPoko อันไหนดีกว่า?</Link>
+      </p>
 
       <h2 id="moony">Moony — บางเบาที่สุด ใส่สบายที่สุด</h2>
       <p>
@@ -338,6 +351,36 @@ export default function DiaperBrandComparisonPage() {
 
       <h2 id="faq">คำถามที่พบบ่อย</h2>
       <FAQ items={FAQ_ITEMS} />
+
+      <div className="not-prose mt-8 rounded-2xl bg-blue-50 border border-blue-100 p-6">
+        <p className="text-sm font-semibold text-blue-800 mb-3">เปรียบเทียบเชิงลึกแบบ 2 ยี่ห้อ</p>
+        <ul className="space-y-2 text-sm">
+          <li>
+            <Link href="/blog/mamypoko-vs-babylove" className="text-blue-700 hover:underline font-medium">
+              MamyPoko vs BabyLove
+            </Link>
+            {' '}— ราคาต่างกัน 15–25% ควรเลือกอะไรตามสถานการณ์?
+          </li>
+          <li>
+            <Link href="/blog/babylove-vs-huggies" className="text-blue-700 hover:underline font-medium">
+              BabyLove vs Huggies
+            </Link>
+            {' '}— ประหยัดกับซับนาน ควรเลือกอะไร?
+          </li>
+          <li>
+            <Link href="/blog/huggies-vs-mamypoko" className="text-blue-700 hover:underline font-medium">
+              Huggies vs MamyPoko
+            </Link>
+            {' '}— สองยี่ห้อกลางถึงสูงต่างกันอย่างไร?
+          </li>
+          <li>
+            <Link href="/blog/best-overnight-diaper" className="text-blue-700 hover:underline font-medium">
+              ผ้าอ้อมกลางคืนที่ดีที่สุด 2026
+            </Link>
+            {' '}— ไม่รั่ว ซับนาน นอนหลับได้ทั้งคืน
+          </li>
+        </ul>
+      </div>
     </BlogLayout>
   )
 }
