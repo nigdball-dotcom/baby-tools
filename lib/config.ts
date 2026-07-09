@@ -283,6 +283,15 @@ export const BLOG_POSTS = [
     readingTime: '5 นาที',
     category: 'การนอนของลูกน้อย',
   },
+  {
+    slug: 'baby-nap-schedule',
+    title: 'ลูกงีบนานไปไหม? ควรปลุกลูกจากงีบไหม พร้อมตารางงีบตามช่วงวัย 2026',
+    description:
+      'งีบนานแค่ไหนถือว่าปกติ ควรปลุกลูกไหม ทารก 4–12 เดือนงีบ 2–3 ครั้ง รวม 3–4 ชั่วโมงต่อวัน พร้อมตารางงีบตามช่วงวัยและสัญญาณที่บอกว่าควรปรับ',
+    date: '2026-07-09',
+    readingTime: '5 นาที',
+    category: 'การนอนของลูกน้อย',
+  },
 ] as const
 
 // TODO: Sprint 2.x — replace with dynamic popular posts based on analytics / pageview data
@@ -305,7 +314,7 @@ export interface Topic {
 
 export const TOPICS: Topic[] = [
   { slug: 'diapers',  label: 'ผ้าอ้อมและของใช้เด็ก', icon: '👶', count: 7, href: '/blog/topic/diapers' },
-  { slug: 'sleep',    label: 'การนอนของลูกน้อย',      icon: '😴', count: 7, href: '/blog/topic/sleep' },
+  { slug: 'sleep',    label: 'การนอนของลูกน้อย',      icon: '😴', count: 8, href: '/blog/topic/sleep' },
   { slug: 'feeding',  label: 'การให้นมลูก',            icon: '🍼', count: 6, href: '/blog/topic/feeding' },
   { slug: 'finance',  label: 'การวางแผนการเงิน',       icon: '💰', count: 6, href: '/blog/topic/finance' },
   { slug: 'health',   label: 'สุขภาพและการดูแล',       icon: '❤️', count: 2, href: '/blog/topic/health' },
