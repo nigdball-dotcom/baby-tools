@@ -2,14 +2,14 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema } from '@/lib/schema'
+import { articleSchema, faqSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
 const SLUG = 'mamypoko-vs-babylove'
-const TITLE = 'MamyPoko vs BabyLove 2026 ยี่ห้อไหนดีกว่า?'
+const TITLE = 'MamyPoko vs BabyLove อันไหนดีกว่า? เปรียบเทียบราคา ซับซึม 2026'
 const DESCRIPTION =
-  'เปรียบเทียบ MamyPoko และ BabyLove ด้านราคา คุณภาพ การซับซึม และความเหมาะสมกับลูกน้อย เพื่อช่วยให้คุณตัดสินใจได้ง่ายขึ้น'
+  'เปรียบเทียบ MamyPoko และ BabyLove ด้านราคา การซับซึม และความอ่อนโยนต่อผิว — ยี่ห้อไหนเหมาะกับการใช้งานกลางวัน และยี่ห้อไหนดีกว่าสำหรับกลางคืน'
 const DATE = '2026-06-15'
 const URL = `/blog/${SLUG}`
 
@@ -49,6 +49,11 @@ const TOC: TOCItem[] = [
 
 const FAQ_ITEMS: FAQItem[] = [
   {
+    question: 'MamyPoko หรือ BabyLove ยี่ห้อไหนดีกว่า?',
+    answer:
+      'ขึ้นอยู่กับลำดับความสำคัญ ถ้าต้องการประหยัด BabyLove ราคาถูกกว่า 15–25% และเหมาะกับการใช้งานกลางวัน ถ้าต้องการซับซึมสูงสำหรับกลางคืนหรือลูกเคลื่อนไหวเยอะ MamyPoko ดีกว่า ทั้งสองผ่านการทดสอบจากผิวแพทย์',
+  },
+  {
     question: 'MamyPoko กับ BabyLove ยี่ห้อไหนซับดีกว่า?',
     answer:
       'MamyPoko มีประสิทธิภาพการซับซึมที่ดีกว่าโดยรวม โดยเฉพาะรุ่น Extra Dry ที่ดูดซับได้รวดเร็วและป้องกันการรั่วซึมได้ดี อย่างไรก็ตาม BabyLove Speed+ ก็ซับได้ดีมากสำหรับราคาที่ถูกกว่า',
@@ -64,9 +69,9 @@ const FAQ_ITEMS: FAQItem[] = [
       'ทั้ง MamyPoko และ BabyLove ผ่านการทดสอบจากผิวแพทย์ (dermatologist tested) แต่ถ้าลูกมีผิวแพ้ง่ายมาก ควรทดลองใช้ก่อนซื้อในปริมาณมาก บางครั้งยี่ห้อพรีเมียมอย่าง Huggies Gold ที่มีผิวสัมผัสนุ่มเป็นพิเศษอาจเหมาะกว่า',
   },
   {
-    question: 'ควรเปลี่ยนยี่ห้อบ่อยๆ ไหม?',
+    question: 'MamyPoko Extra Dry เหมาะสำหรับกลางคืนไหม?',
     answer:
-      'ไม่แนะนำให้เปลี่ยนยี่ห้อบ่อยมาก เพราะผิวลูกต้องปรับตัวกับส่วนผสมใหม่ ถ้ายี่ห้อที่ใช้อยู่ไม่มีปัญหา ก็ควรใช้ต่อไป เว้นแต่ต้องการลดค่าใช้จ่ายหรือลูกเริ่มมีอาการแพ้',
+      'ใช่ MamyPoko Extra Dry เป็นรุ่นที่เหมาะกับการใช้งานกลางคืนมากที่สุด เพราะดูดซับได้รวดเร็ว แห้งดี และป้องกันการรั่วซึมเมื่อลูกนอนนาน BabyLove Speed+ Magic ก็ใช้กลางคืนได้ แต่อาจรั่วถ้าลูกฉี่ปริมาณมากในคราวเดียว',
   },
 ]
 
@@ -78,6 +83,7 @@ export default function MamypokoVsBabylove() {
     datePublished: DATE,
     dateModified: '2026-06-22',
   })
+  const faq = faqSchema(FAQ_ITEMS)
 
   return (
     <BlogLayout
@@ -99,10 +105,19 @@ export default function MamypokoVsBabylove() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+      />
 
       <p>
-        <strong>MamyPoko</strong> และ <strong>BabyLove</strong> เป็นสองยี่ห้อผ้าอ้อมที่ได้รับความนิยมสูงสุดในไทย
-        พ่อแม่หลายคนสับสนว่าควรเลือกยี่ห้อไหน บทความนี้เปรียบเทียบทั้งสองอย่างละเอียดเพื่อช่วยให้คุณตัดสินใจได้ง่ายขึ้น
+        <strong>MamyPoko</strong> และ <strong>BabyLove</strong> เป็นสองยี่ห้อผ้าอ้อมที่ครองตลาดไทยมายาวนาน
+        ราคาต่างกันไม่มาก แต่จุดแข็งต่างกันชัดเจน — ซึ่งหมายความว่าคำตอบขึ้นอยู่กับว่าคุณให้ความสำคัญกับอะไร
+      </p>
+      <p>
+        <strong>คำตอบสั้น:</strong> ถ้างบประมาณสำคัญ <strong>BabyLove</strong> ประหยัดกว่า 15–25% และเหมาะกับการใช้งานกลางวัน
+        ถ้าลูกนอนนานหรือฉี่ปริมาณมาก <strong>MamyPoko Extra Dry</strong> ซับซึมได้ดีกว่าและเหมาะกับกลางคืน
+        สำหรับเด็กผิวแพ้ง่าย ทั้งสองผ่านการทดสอบจากผิวแพทย์ แต่ควรทดลองใช้ก่อนซื้อจำนวนมาก
       </p>
 
       <h2 id="overview">ภาพรวม MamyPoko และ BabyLove</h2>
@@ -195,6 +210,10 @@ export default function MamypokoVsBabylove() {
           บางครั้งอาจรั่วซึมถ้าลูกฉี่ปริมาณมากในคราวเดียว
         </li>
       </ul>
+      <p>
+        ต้องการผ้าอ้อมที่ซับซึมได้ตลอดคืนโดยเฉพาะ?{' '}
+        <Link href="/blog/best-overnight-diaper">ดูผ้าอ้อมกลางคืนที่ดีที่สุดสำหรับทารก 2026</Link>
+      </p>
 
       <h2 id="skin">ความอ่อนโยนต่อผิว</h2>
       <p>
@@ -206,6 +225,11 @@ export default function MamypokoVsBabylove() {
         <li>ถ้าลูกผิวแพ้ง่าย: ลองทั้งสองก่อนตัดสินใจซื้อจำนวนมาก</li>
         <li>ถ้ามีผื่นผ้าอ้อมบ่อย: อาจต้องพิจารณายี่ห้อพรีเมียมอย่าง Huggies Gold</li>
       </ul>
+      <p>
+        มีปัญหาผื่นผ้าอ้อมซ้ำๆ?{' '}
+        <Link href="/blog/diaper-rash-prevention">วิธีป้องกันและรักษาผื่นผ้าอ้อมในทารก</Link>
+        {' '}อาจช่วยได้
+      </p>
 
       <h2 id="verdict">สรุป: ควรเลือกยี่ห้อไหน?</h2>
 
@@ -234,11 +258,44 @@ export default function MamypokoVsBabylove() {
         สุดท้ายแล้ว ไม่มียี่ห้อไหนดีที่สุดสำหรับทุกคน ทดลองใช้ทั้งสองก่อน
         แล้วดูว่าลูกน้อยของคุณชอบแบบไหน และใช้{' '}
         <Link href="/tools/diaper-cost">เครื่องคำนวณค่าผ้าอ้อมของเรา</Link>{' '}
-        เพื่อเปรียบเทียบค่าใช้จ่ายรายเดือนระหว่างสองยี่ห้อ
+        เพื่อเปรียบเทียบค่าใช้จ่ายรายเดือนระหว่างสองยี่ห้อ ถ้าต้องการเปรียบเทียบกับยี่ห้ออื่นด้วย ดูได้ที่{' '}
+        <Link href="/blog/diaper-brand-comparison">เปรียบเทียบผ้าอ้อมทุกยี่ห้อ</Link>{' '}
+        หรือ{' '}
+        <Link href="/blog/babylove-vs-huggies">BabyLove vs Huggies</Link>
       </p>
 
       <h2 id="faq">คำถามที่พบบ่อย</h2>
       <FAQ items={FAQ_ITEMS} />
+
+      <div className="not-prose mt-8 rounded-2xl bg-blue-50 border border-blue-100 p-6">
+        <p className="text-sm font-semibold text-blue-800 mb-3">บทความเปรียบเทียบที่เกี่ยวข้อง</p>
+        <ul className="space-y-2 text-sm">
+          <li>
+            <Link href="/blog/diaper-brand-comparison" className="text-blue-700 hover:underline font-medium">
+              เปรียบเทียบผ้าอ้อมทุกยี่ห้อในไทย 2026
+            </Link>
+            {' '}— ตารางเปรียบเทียบ MamyPoko, BabyLove, Huggies, Merries
+          </li>
+          <li>
+            <Link href="/blog/babylove-vs-huggies" className="text-blue-700 hover:underline font-medium">
+              BabyLove vs Huggies อันไหนดีกว่า?
+            </Link>
+            {' '}— เปรียบเทียบราคาและคุณภาพ
+          </li>
+          <li>
+            <Link href="/blog/huggies-vs-mamypoko" className="text-blue-700 hover:underline font-medium">
+              Huggies vs MamyPoko
+            </Link>
+            {' '}— จุดแข็ง จุดอ่อน ของสองแบรนด์ระดับบน
+          </li>
+          <li>
+            <Link href="/blog/best-overnight-diaper" className="text-blue-700 hover:underline font-medium">
+              ผ้าอ้อมกลางคืนที่ดีที่สุด 2026
+            </Link>
+            {' '}— รีวิวและเปรียบเทียบสำหรับลูกที่นอนนาน
+          </li>
+        </ul>
+      </div>
     </BlogLayout>
   )
 }
