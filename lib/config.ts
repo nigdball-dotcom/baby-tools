@@ -274,6 +274,15 @@ export const BLOG_POSTS = [
     readingTime: '6 นาที',
     category: 'ผ้าอ้อมและของใช้เด็ก',
   },
+  {
+    slug: 'baby-sleep-hours-by-age',
+    title: 'ลูกควรนอนวันละกี่ชั่วโมง? ตารางตามช่วงวัยและวิธีรู้ว่านอนพอ 2026',
+    description:
+      'ตารางชั่วโมงนอนจาก AASM: ทารก 4–12 เดือน ควรนอน 12–16 ชั่วโมง เด็กเล็ก 1–2 ปี นอน 11–14 ชั่วโมง รวมงีบกลางวัน พร้อมวิธีรู้ว่าลูกนอนพอหรือเปล่า',
+    date: '2026-07-09',
+    readingTime: '5 นาที',
+    category: 'การนอนของลูกน้อย',
+  },
 ] as const
 
 // TODO: Sprint 2.x — replace with dynamic popular posts based on analytics / pageview data
@@ -296,7 +305,7 @@ export interface Topic {
 
 export const TOPICS: Topic[] = [
   { slug: 'diapers',  label: 'ผ้าอ้อมและของใช้เด็ก', icon: '👶', count: 7, href: '/blog/topic/diapers' },
-  { slug: 'sleep',    label: 'การนอนของลูกน้อย',      icon: '😴', count: 6, href: '/blog/topic/sleep' },
+  { slug: 'sleep',    label: 'การนอนของลูกน้อย',      icon: '😴', count: 7, href: '/blog/topic/sleep' },
   { slug: 'feeding',  label: 'การให้นมลูก',            icon: '🍼', count: 6, href: '/blog/topic/feeding' },
   { slug: 'finance',  label: 'การวางแผนการเงิน',       icon: '💰', count: 6, href: '/blog/topic/finance' },
   { slug: 'health',   label: 'สุขภาพและการดูแล',       icon: '❤️', count: 2, href: '/blog/topic/health' },
