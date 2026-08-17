@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import BlogLayout from '@/components/BlogLayout'
 import FAQ from '@/components/FAQ'
-import { articleSchema, faqSchema } from '@/lib/schema'
+import { articleSchema } from '@/lib/schema'
 import { SITE_URL, SITE_NAME } from '@/lib/config'
 import type { FAQItem, TOCItem } from '@/types'
 
@@ -96,7 +96,6 @@ export default function BabyNapSchedulePage() {
     datePublished: DATE,
     dateModified: DATE,
   })
-  const faq = faqSchema(FAQ_ITEMS)
 
   return (
     <BlogLayout
@@ -116,10 +115,6 @@ export default function BabyNapSchedulePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
       />
 
       {/* Hero image */}
