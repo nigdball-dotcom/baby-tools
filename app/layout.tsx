@@ -70,6 +70,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
+        {/* gtag stub runs synchronously so window.gtag exists before React hydration fires useEffect */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EMDETQFZB6');`,
+          }}
+        />
       </head>
       <body className="bg-white text-gray-900 antialiased font-sans">
         <a
@@ -84,9 +90,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           src="https://www.googletagmanager.com/gtag/js?id=G-EMDETQFZB6"
           strategy="afterInteractive"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-EMDETQFZB6');`}
-        </Script>
       </body>
     </html>
   )
