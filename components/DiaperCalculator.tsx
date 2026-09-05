@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react'
 import type { DiaperFormState, DiaperResults } from '@/types'
+import { trackToolOpen, trackToolComplete } from '@/lib/analytics'
 
 function formatTHB(value: number): string {
   return (
@@ -99,6 +100,19 @@ export default function DiaperCalculator() {
   const [activeBrand, setActiveBrand] = useState<string | null>(null)
 
   const results = useMemo(() => computeResults(form), [form])
+
+  const completedRef = useRef(false)
+
+  useEffect(() => {
+    trackToolOpen('diaper_cost')
+  }, [])
+
+  useEffect(() => {
+    if (results && !completedRef.current) {
+      completedRef.current = true
+      trackToolComplete('diaper_cost')
+    }
+  }, [results])
 
   const set = useCallback(
     (key: keyof DiaperFormState) => (value: string) =>

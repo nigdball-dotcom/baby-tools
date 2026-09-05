@@ -1,5 +1,6 @@
 import { getRecommendedProducts, sortProducts } from '@/lib/affiliate'
 import { formatUpdatedAt } from '@/lib/utils'
+import AffiliateLink from './AffiliateLink'
 
 const PRODUCTS = sortProducts(getRecommendedProducts('daily'), 'default').map((p) => ({
   id: p.id,
@@ -56,15 +57,16 @@ function ProductCard({ product }: { product: ProductEntry }) {
 
       <div className="mt-4 flex items-center justify-between gap-3">
         <span className="text-sm font-semibold text-gray-900">{product.priceRange}</span>
-        <a
+        <AffiliateLink
           href={product.affiliateUrl}
-          target="_blank"
-          rel="sponsored noopener noreferrer"
-          aria-label={`ดูสินค้า ${product.title}`}
+          merchant={product.brand}
+          productId={product.id}
+          placement="tool_page"
+          ariaLabel={`ดูสินค้า ${product.title}`}
           className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-95"
         >
           ดูสินค้า
-        </a>
+        </AffiliateLink>
       </div>
     </div>
   )

@@ -6,6 +6,9 @@ import RelatedArticles from './RelatedArticles'
 import { formatThaiDate, formatUpdatedAt } from '@/lib/utils'
 import { getRecommendedProducts, sortProducts } from '@/lib/affiliate'
 import type { BreadcrumbItem, TOCItem } from '@/types'
+import ArticleViewTracker from './ArticleViewTracker'
+import ArticleCtaLink from './ArticleCtaLink'
+import AffiliateLink from './AffiliateLink'
 
 interface BlogLayoutProps {
   slug: string
@@ -33,12 +36,14 @@ export default function BlogLayout({
   children,
 }: BlogLayoutProps) {
   const ctaConfig = getCTAConfig(category)
+  const topic = getCategorySlug(category) ?? 'other'
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar activeHref="/blog" />
 
       <main id="main-content" className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+        <ArticleViewTracker articleSlug={slug} topic={topic} />
         {/* Breadcrumb */}
         <Breadcrumb items={breadcrumbs} />
 
@@ -111,15 +116,13 @@ export default function BlogLayout({
           <p className="text-sm font-semibold text-blue-200 uppercase tracking-wide">{ctaConfig.eyebrow}</p>
           <h2 className="mt-2 text-xl font-bold sm:text-2xl">{ctaConfig.heading}</h2>
           <p className="mt-2 text-blue-100 text-sm sm:text-base">{ctaConfig.description}</p>
-          <Link
+          <ArticleCtaLink
             href={ctaConfig.href}
-            className="mt-5 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-base font-semibold text-blue-700 shadow-sm transition hover:bg-blue-50 active:scale-95"
-          >
-            <span>{ctaConfig.label}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
-              <path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" />
-            </svg>
-          </Link>
+            label={ctaConfig.label}
+            articleSlug={slug}
+            topic={topic}
+            ctaType={ctaConfig.ctaType}
+          />
         </div>
 
         {/* Related articles */}
@@ -141,11 +144,12 @@ function RecommendedProductsInline() {
       <p className="mt-1 text-sm text-gray-500">ราคาโดยประมาณ อาจแตกต่างตามร้านค้าและโปรโมชั่น</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
         {products.map((p) => (
-          <a
+          <AffiliateLink
             key={p.brand}
             href={p.affiliateUrl}
-            target="_blank"
-            rel="sponsored noopener noreferrer"
+            merchant={p.brand}
+            productId={p.id}
+            placement="article_page"
             className="flex items-center justify-between rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition hover:shadow-md hover:-translate-y-0.5"
           >
             <div>
@@ -161,7 +165,7 @@ function RecommendedProductsInline() {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-blue-500 shrink-0" aria-hidden="true">
               <path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" />
             </svg>
-          </a>
+          </AffiliateLink>
         ))}
       </div>
       <p className="mt-3 text-xs text-gray-400">
@@ -183,7 +187,7 @@ const DIAPER_CATEGORIES = new Set([
 
 const FINANCE_CATEGORIES = new Set(['การวางแผนการเงิน', 'งบประมาณครอบครัว'])
 
-type CTAConfig = { eyebrow: string; heading: string; description: string; href: string; label: string }
+type CTAConfig = { eyebrow: string; heading: string; description: string; href: string; label: string; ctaType: string }
 
 function getCTAConfig(category: string): CTAConfig {
   if (DIAPER_CATEGORIES.has(category) || FINANCE_CATEGORIES.has(category)) {
@@ -193,6 +197,7 @@ function getCTAConfig(category: string): CTAConfig {
       description: 'กรอกแค่ 3 ค่า ดูผลลัพธ์ทันที ไม่ต้องสมัครสมาชิก',
       href: '/tools/diaper-cost',
       label: 'เปิดเครื่องคำนวณ',
+      ctaType: 'tool',
     }
   }
   if (category === 'การนอนของลูกน้อย') {
@@ -202,6 +207,7 @@ function getCTAConfig(category: string): CTAConfig {
       description: 'เครื่องมือติดตามและวางแผนการนอนสำหรับลูกน้อย กำลังมาเร็วๆ นี้',
       href: '/blog/topic/sleep',
       label: 'ดูบทความการนอนทั้งหมด',
+      ctaType: 'topic',
     }
   }
   if (category === 'การให้นมลูก') {
@@ -211,6 +217,7 @@ function getCTAConfig(category: string): CTAConfig {
       description: 'เครื่องมือวางแผนการให้นมสำหรับทารก กำลังมาเร็วๆ นี้',
       href: '/blog/topic/feeding',
       label: 'ดูบทความการให้นมทั้งหมด',
+      ctaType: 'topic',
     }
   }
   if (category === 'สุขภาพและการดูแล') {
@@ -220,6 +227,7 @@ function getCTAConfig(category: string): CTAConfig {
       description: 'คำแนะนำด้านสุขภาพและการดูแลลูกน้อยจากผู้เชี่ยวชาญ',
       href: '/blog/topic/health',
       label: 'ดูบทความสุขภาพทั้งหมด',
+      ctaType: 'topic',
     }
   }
   // default fallback
@@ -229,6 +237,7 @@ function getCTAConfig(category: string): CTAConfig {
     description: 'กรอกแค่ 3 ค่า ดูผลลัพธ์ทันที ไม่ต้องสมัครสมาชิก',
     href: '/tools/diaper-cost',
     label: 'เปิดเครื่องคำนวณ',
+    ctaType: 'tool',
   }
 }
 
